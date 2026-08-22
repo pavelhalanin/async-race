@@ -18,9 +18,11 @@ npm i
 npm run dev
 ```
 
-## Deploy
+## Deploy frontend to gh-pages
 
 ```
+git clone https://github.com/pavelhalanin/async-race.git
+cd async-race
 npm i
 npm run build
 npx gh-pages -d dist
