@@ -33,6 +33,18 @@ const GarageApi = {
     const DATA = await RESPONSE.json();
     return DATA;
   },
+  async remove(id: number): Promise<void> {
+    const URI = `http://localhost:3000/garage/${id}`;
+
+    const RESPONSE = await fetch(URI, {
+      method: 'DELETE',
+    });
+
+    const HTTP_STATUS = RESPONSE.status;
+    if (HTTP_STATUS !== 200) {
+      throw new Error(`HTTP ${HTTP_STATUS}`);
+    }
+  },
 };
 
 export default GarageApi;

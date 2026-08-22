@@ -1,20 +1,22 @@
-import GarageApi from '../../api/garage/GarageApi';
+import type { IGarage } from '../../types/garage.dto';
 import Car from '../Car/Car';
+import RemoveCardButton from '../RemoveCarButton/RemoveCarButton';
 
 const Garage = {
-  async render(): Promise<string> {
-    const GARAGE = await GarageApi.get();
-
-    return GARAGE.map(car => {
-      return `
+  async render(cars: Array<IGarage>): Promise<string> {
+    return cars
+      .map(car => {
+        return `
         <div>
+          ${RemoveCardButton.render(car.id)}
           ${car.id} ${car.name}
         </div>
         <div>
           ${Car.render(car.color)}
         </div>
       `;
-    }).join('');
+      })
+      .join('');
   },
 };
 
