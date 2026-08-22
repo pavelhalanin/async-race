@@ -9,6 +9,15 @@ npm i
 npm start
 ```
 
+## Start frontend
+
+```
+git clone https://github.com/pavelhalanin/async-race.git
+cd async-race
+npm i
+npm run dev
+```
+
 ## Deploy
 
 ```
