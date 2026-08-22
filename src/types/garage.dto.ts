@@ -3,3 +3,5 @@ export interface IGarage {
   color: string;
   id: number;
 }
+
+export type IGarageCreate = Omit<IGarage, 'id'>;
