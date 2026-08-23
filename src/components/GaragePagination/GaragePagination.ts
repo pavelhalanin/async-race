@@ -18,18 +18,33 @@ export const GaragePagination = {
     const TOTAL_COUNT = await GarageApi.getCount();
     const LAST_PAGE = Pagination.getLastPage(TOTAL_COUNT, limit);
 
-    let html = '<div class="pagination__content">';
-    for (let page = 1; page <= LAST_PAGE; page++) {
-      html += `<button data-page="${page}" class="${currentPage == page ? '--current' : ''}">${page}</button>`;
-    }
-    html += '</div>';
+    let html = `
+      <button class="btn btn-primary" id="pagination_prev_button" ${currentPage <= 1 ? 'disabled' : ''}>Prev</button>
+      <select id="pagination_select" class="btn">
+        ${Array.from({ length: LAST_PAGE }, (_, index) => {
+          const PAGE = index + 1;
+          return `<option value="${PAGE}" ${PAGE === currentPage ? 'selected' : ''}>${PAGE}</option>`;
+        }).join('')}
+      </select>
+      <button class="btn btn-primary" id="pagination_next_button" ${currentPage >= LAST_PAGE ? 'disabled' : ''}>Next</button>
+    `;
 
     DIV.innerHTML = html;
 
-    for (let page = 1; page <= LAST_PAGE; page++) {
-      const SELECTOR = `${NODE_ID} button[data-page="${CSS.escape(String(page))}"]`;
-      const BUTTON = document.querySelector(SELECTOR);
-      BUTTON?.addEventListener('click', async () => await GaragePage.render(page, 5));
-    }
+    document
+      .querySelector('#pagination_prev_button')
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage - 1, 5));
+
+    document
+      .querySelector('#pagination_next_button')
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage + 1, 5));
+
+    document.querySelector('#pagination_select')?.addEventListener('change', async event => {
+      const target = event.target as HTMLSelectElement;
+      if (target) {
+        const selectedPage = parseInt(target.value);
+        await GaragePage.render(selectedPage, 5);
+      }
+    });
   },
 };
