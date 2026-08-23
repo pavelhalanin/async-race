@@ -1,8 +1,7 @@
-import GarageApi from '../../api/garage/GarageApi';
 import { App } from '../../components/App/App';
 import { CreateCardForm } from '../../components/CreateCarForm/CreateCarForm';
 import { Garage } from '../../components/Garage/Garage';
-import { RemoveCardButton } from '../../components/RemoveCarButton/RemoveCarButton';
+import { GaragePagination } from '../../components/GaragePagination/GaragePagination';
 
 export const GaragePage = {
   async render(): Promise<void> {
@@ -14,23 +13,17 @@ export const GaragePage = {
     }
 
     try {
-      DIV.innerHTML = 'Loading...';
-      const CARS = await GarageApi.get();
       DIV.innerHTML = `
         ${CreateCardForm.render()}
         <div>
           <button id="generate_cars">Generate cars</button>
         </div>
-        ${await Garage.render(CARS)}
+        <div id="${Garage.idGarageContent}"></div>
+        <div id="${GaragePagination.idPaginationContainer}"></div>
       `;
-      CreateCardForm.init();
-      for (const CAR of CARS) {
-        RemoveCardButton.init(CAR.id);
-      }
-
-      document
-        .querySelector(`#generate_cars`)
-        ?.addEventListener('click', GarageApi.generageRandom10Cars);
+      const LIMIT = 5;
+      await Garage.render(1, LIMIT);
+      GaragePagination.render(LIMIT);
     } catch (error) {
       DIV.innerHTML = `
         <div>${error}</div>
