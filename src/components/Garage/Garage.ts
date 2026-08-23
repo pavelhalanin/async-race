@@ -2,6 +2,7 @@ import GarageApi from '../../api/garage/GarageApi';
 import { Car } from '../Car/Car';
 import { CreateCardForm } from '../CreateCarForm/CreateCarForm';
 import { RemoveCardButton } from '../RemoveCarButton/RemoveCarButton';
+import './Garage.css';
 
 export const Garage = {
   idGarageContent: 'garage_content',

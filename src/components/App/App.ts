@@ -1,5 +1,6 @@
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import { WinnersPage } from '../../pages/WinnersPage/WinnersPage';
+import './App.css';
 
 export const App = {
   idRoot: 'app',
