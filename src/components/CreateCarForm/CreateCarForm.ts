@@ -1,13 +1,16 @@
 import GarageApi from '../../api/garage/GarageApi';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import type { IGarageCreate } from '../../types/garage.dto';
+import './CreateCarForm.css';
 
 export const CreateCardForm = {
   idForm: 'create_car_form',
   render(): string {
     return `
       <form id="${CreateCardForm.idForm}">
+        <span>Car name:</span>
         <input type="text" name="name">
+        <span>Color:</span>
         <input type="color" name="color">
         <button class="btn btn-success">Create</button>
       </form>
