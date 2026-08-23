@@ -1,4 +1,6 @@
+import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import type { IGarage, IGarageCreate } from '../../types/garage.dto';
+import { HtmlColorHelper } from '../../utils/HtmlColorHelper';
 
 const GarageApi = {
   async get(): Promise<Array<IGarage>> {
@@ -44,6 +46,21 @@ const GarageApi = {
     if (HTTP_STATUS !== 200) {
       throw new Error(`HTTP ${HTTP_STATUS}`);
     }
+  },
+  async generageRandom10Cars(): Promise<void> {
+    const D = new Date();
+    const HH = String(D.getHours()).padStart(2, '0');
+    const MI = String(D.getMinutes()).padStart(2, '0');
+    const SS = String(D.getSeconds()).padStart(2, '0');
+    const RANDOM_CAR_NAME = `Random car ${HH}${MI}${SS}`;
+    for (let index = 1; index <= 10; index++) {
+      const CAR: IGarageCreate = {
+        name: `${RANDOM_CAR_NAME}-${String(index).padStart(2, '0')}`,
+        color: HtmlColorHelper.getRandomColor(),
+      };
+      await GarageApi.create(CAR);
+    }
+    await GaragePage.render();
   },
 };
 

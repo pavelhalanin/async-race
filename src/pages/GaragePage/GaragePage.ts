@@ -18,12 +18,19 @@ export const GaragePage = {
       const CARS = await GarageApi.get();
       DIV.innerHTML = `
         ${CreateCardForm.render()}
+        <div>
+          <button id="generate_cars">Generate cars</button>
+        </div>
         ${await Garage.render(CARS)}
       `;
       CreateCardForm.init();
       for (const CAR of CARS) {
         RemoveCardButton.init(CAR.id);
       }
+
+      document
+        .querySelector(`#generate_cars`)
+        ?.addEventListener('click', GarageApi.generageRandom10Cars);
     } catch (error) {
       DIV.innerHTML = `
         <div>${error}</div>
