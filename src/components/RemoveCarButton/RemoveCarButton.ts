@@ -1,10 +1,11 @@
 import GarageApi from '../../api/garage/GarageApi';
+import { GaragePage } from '../../pages/GaragePage/GaragePage';
 
-const RemoveCardButton = {
+export const RemoveCardButton = {
   idForm: 'create_car_form',
   render(id: number): string {
     return `
-        <button data-car-id="${id}">Remove</button>
+      <button data-car-id="${id}">Remove</button>
     `;
   },
   init(id: number): void {
@@ -20,8 +21,7 @@ const RemoveCardButton = {
     const BUTTON = event.target as HTMLButtonElement;
     const CAR_ID = Number(BUTTON.dataset.carId as string) || 0;
     console.log(`Remove car with ID: ${CAR_ID}`);
-    GarageApi.remove(CAR_ID);
+    await GarageApi.remove(CAR_ID);
+    await GaragePage.render();
   },
 };
-
-export default RemoveCardButton;

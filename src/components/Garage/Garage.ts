@@ -1,8 +1,8 @@
 import type { IGarage } from '../../types/garage.dto';
-import Car from '../Car/Car';
-import RemoveCardButton from '../RemoveCarButton/RemoveCarButton';
+import { Car } from '../Car/Car';
+import { RemoveCardButton } from '../RemoveCarButton/RemoveCarButton';
 
-const Garage = {
+export const Garage = {
   async render(cars: Array<IGarage>): Promise<string> {
     return cars
       .map(car => {
@@ -19,5 +19,3 @@ const Garage = {
       .join('');
   },
 };
-
-export default Garage;

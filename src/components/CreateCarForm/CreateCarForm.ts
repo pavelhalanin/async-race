@@ -1,7 +1,8 @@
 import GarageApi from '../../api/garage/GarageApi';
+import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import type { IGarageCreate } from '../../types/garage.dto';
 
-const CreateCardForm = {
+export const CreateCardForm = {
   idForm: 'create_car_form',
   render(): string {
     return `
@@ -33,7 +34,6 @@ const CreateCardForm = {
     console.log('Try to create car', CAR);
     const CREATED_CAR = await GarageApi.create(CAR);
     console.log('Created car', CREATED_CAR);
+    await GaragePage.render();
   },
 };
-
-export default CreateCardForm;
