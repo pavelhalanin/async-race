@@ -9,7 +9,7 @@ export const CreateCardForm = {
       <form id="${CreateCardForm.idForm}">
         <input type="text" name="name">
         <input type="color" name="color">
-        <button>Create</button>
+        <button class="btn btn-success">Create</button>
       </form>
     `;
   },
