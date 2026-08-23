@@ -34,6 +34,6 @@ export const CreateCardForm = {
     console.log('Try to create car', CAR);
     const CREATED_CAR = await GarageApi.create(CAR);
     console.log('Created car', CREATED_CAR);
-    await GaragePage.render();
+    await GaragePage.render(1, 5);
   },
 };

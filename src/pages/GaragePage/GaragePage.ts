@@ -4,7 +4,7 @@ import { Garage } from '../../components/Garage/Garage';
 import { GaragePagination } from '../../components/GaragePagination/GaragePagination';
 
 export const GaragePage = {
-  async render(): Promise<void> {
+  async render(currentPage: number, limit: number): Promise<void> {
     const NODE_ID = `#${App.idContent}`;
     const DIV = document.querySelector(NODE_ID);
     if (!DIV) {
@@ -21,9 +21,8 @@ export const GaragePage = {
         <div id="${Garage.idGarageContent}"></div>
         <div id="${GaragePagination.idPaginationContainer}"></div>
       `;
-      const LIMIT = 5;
-      await Garage.render(1, LIMIT);
-      GaragePagination.render(LIMIT);
+      await Garage.render(currentPage, limit);
+      await GaragePagination.render(currentPage, limit);
     } catch (error) {
       DIV.innerHTML = `
         <div>${error}</div>

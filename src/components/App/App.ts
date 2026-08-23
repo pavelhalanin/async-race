@@ -21,10 +21,12 @@ export const App = {
         <div id="${App.idContent}"></div>
       `;
 
-      document.querySelector(`#garage_render`)?.addEventListener('click', GaragePage.render);
+      document
+        .querySelector(`#garage_render`)
+        ?.addEventListener('click', async () => GaragePage.render(1, 5));
       document.querySelector(`#winner_render`)?.addEventListener('click', WinnersPage.render);
 
-      await GaragePage.render();
+      await GaragePage.render(1, 5);
     } catch (error) {
       DIV.innerHTML = `
         <div style='color: red;'>

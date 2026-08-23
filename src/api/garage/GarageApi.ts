@@ -73,7 +73,7 @@ const GarageApi = {
       };
       await GarageApi.create(CAR);
     }
-    await GaragePage.render();
+    await GaragePage.render(1, 5);
   },
   async getCount(): Promise<number> {
     const URI = `http://localhost:3000/garage/?_page=1&_limit=1`;

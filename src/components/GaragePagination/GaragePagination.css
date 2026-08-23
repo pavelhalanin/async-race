@@ -1,0 +1,21 @@
+.pagination__content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pagination__content button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--site-color);
+  background-color: var(--site-color-2);
+  color: var(--site-color);
+  transition: all 0.2s ease;
+}
+
+.pagination__content button.--current,
+.pagination__content button:hover {
+  background-color: var(--site-color);
+  color: var(--site-color-2);
+}
