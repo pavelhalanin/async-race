@@ -25,5 +25,5 @@ git clone https://github.com/pavelhalanin/async-race.git
 cd async-race
 npm i
 npm run build
-npx gh-pages -d dist
+npm run deploy
 ```
