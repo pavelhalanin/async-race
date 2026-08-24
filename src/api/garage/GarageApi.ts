@@ -1,3 +1,4 @@
+import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import type { IGarage, IGarageCreate } from '../../types/garage.dto';
 import { HtmlColorHelper } from '../../utils/HtmlColorHelper';
@@ -73,7 +74,7 @@ const GarageApi = {
       };
       await GarageApi.create(CAR);
     }
-    await GaragePage.render(1, 5);
+    await GaragePage.render(1, ENV.limit);
   },
   async getCount(): Promise<number> {
     const URI = `http://localhost:3000/garage/?_page=1&_limit=1`;

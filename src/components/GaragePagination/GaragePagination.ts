@@ -1,4 +1,5 @@
 import GarageApi from '../../api/garage/GarageApi';
+import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import { Pagination } from '../../utils/Pagination';
 import './GaragePagination.css';
@@ -33,17 +34,17 @@ export const GaragePagination = {
 
     document
       .querySelector('#pagination_prev_button')
-      ?.addEventListener('click', async () => await GaragePage.render(currentPage - 1, 5));
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage - 1, ENV.limit));
 
     document
       .querySelector('#pagination_next_button')
-      ?.addEventListener('click', async () => await GaragePage.render(currentPage + 1, 5));
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage + 1, ENV.limit));
 
     document.querySelector('#pagination_select')?.addEventListener('change', async event => {
       const target = event.target as HTMLSelectElement;
       if (target) {
         const selectedPage = parseInt(target.value);
-        await GaragePage.render(selectedPage, 5);
+        await GaragePage.render(selectedPage, ENV.limit);
       }
     });
   },
