@@ -44,7 +44,7 @@ export const Garage = {
 
     document
       .querySelector(`#generate_cars`)
-      ?.addEventListener('click', GarageApi.generageRandom10Cars);
+      ?.addEventListener('click', GarageApi.generageRandom100Cars);
 
     await GaragePagination.render(page, limit, TOTAL_COUNT);
   },

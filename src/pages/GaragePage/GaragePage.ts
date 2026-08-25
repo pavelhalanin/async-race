@@ -16,7 +16,13 @@ export const GaragePage = {
       DIV.innerHTML = `
         ${CreateCardForm.render()}
         <div>
-          <button class="btn btn-primary" id="generate_cars">Generate cars</button>
+          <button
+            class="btn btn-primary"
+            id="generate_cars"
+            title="Generate random 100 cars"
+          >
+            Generate cars
+          </button>
         </div>
         <div id="${Garage.idGarageContent}"></div>
         <div id="${GaragePagination.idPaginationContainer}"></div>

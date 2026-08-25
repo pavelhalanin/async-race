@@ -4,4 +4,8 @@ export interface IGarage {
   id: number;
 }
 
+export type ICarExamples<T extends string> = {
+  [brand in T]: string[];
+};
+
 export type IGarageCreate = Omit<IGarage, 'id'>;

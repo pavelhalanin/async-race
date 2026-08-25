@@ -1,7 +1,9 @@
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
-import type { IGarage, IGarageCreate } from '../../types/garage.dto';
+import type { ICarExamples, IGarage, IGarageCreate } from '../../types/garage.dto';
 import { HtmlColorHelper } from '../../utils/HtmlColorHelper';
+import { Random } from '../../utils/Radnom';
+import JSON_CAR_EXAMPLES from './../cars/cars.json';
 
 const GarageApi = {
   async getPagination(
@@ -55,20 +57,28 @@ const GarageApi = {
       throw new Error(`HTTP ${HTTP_STATUS}`);
     }
   },
-  async generageRandom10Cars(): Promise<void> {
-    const D = new Date();
-    const HH = String(D.getHours()).padStart(2, '0');
-    const MI = String(D.getMinutes()).padStart(2, '0');
-    const SS = String(D.getSeconds()).padStart(2, '0');
-    const RANDOM_CAR_NAME = `Random car ${HH}${MI}${SS}`;
-    for (let index = 1; index <= 10; index++) {
+  async generageRandom100Cars(this: HTMLButtonElement): Promise<void> {
+    this.setAttribute('disabled', 'true');
+    this.innerHTML = 'Generate cars (loading...)';
+
+    const CAR_EXAMPLES: ICarExamples<string> = JSON_CAR_EXAMPLES;
+    const FIRST_PARTS = Object.keys(CAR_EXAMPLES);
+    for (let index = 1; index <= 100; index++) {
+      const FIRST_INDEX = Random.random_from_a_to_b(0, FIRST_PARTS.length - 1);
+      const FIRST_PART = FIRST_PARTS[FIRST_INDEX];
+      const SECOND_PARTS = CAR_EXAMPLES[FIRST_PART];
+      const SECOND_INDEX = Random.random_from_a_to_b(0, SECOND_PARTS.length - 1);
+      const SECOND_PART = SECOND_PARTS[SECOND_INDEX];
       const CAR: IGarageCreate = {
-        name: `${RANDOM_CAR_NAME}-${String(index).padStart(2, '0')}`,
+        name: `${FIRST_PART}-${SECOND_PART}`,
         color: HtmlColorHelper.getRandomColor(),
       };
       await GarageApi.create(CAR);
     }
     await GaragePage.render(1, ENV.limit);
+
+    this.removeAttribute('disabled');
+    this.innerHTML = 'Generate cars';
   },
 };
 
