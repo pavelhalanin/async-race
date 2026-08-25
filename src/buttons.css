@@ -51,3 +51,15 @@
   background-color: var(--danger-hover-background-color);
   border-color: var(--danger-hover-border-color);
 }
+
+.btn-warning {
+  color: var(--warning-color);
+  background-color: var(--warning-background-color);
+  border-color: var(--warning-border-color);
+}
+
+.btn-warning:hover {
+  color: var(--warning-hover-color);
+  background-color: var(--warning-hover-background-color);
+  border-color: var(--warning-hover-border-color);
+}

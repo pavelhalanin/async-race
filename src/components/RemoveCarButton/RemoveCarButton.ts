@@ -2,7 +2,7 @@ import GarageApi from '../../api/garage/GarageApi';
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 
-export const RemoveCardButton = {
+export const RemoveCarButton = {
   idForm: 'create_car_form',
   render(id: number): string {
     return `
@@ -16,9 +16,9 @@ export const RemoveCardButton = {
       console.error(`Node not found: ${SELECTOR}`);
       return;
     }
-    BUTTON.addEventListener('click', RemoveCardButton.onClickRemoveButton);
+    BUTTON.addEventListener('click', RemoveCarButton.onClick);
   },
-  async onClickRemoveButton(event: Event): Promise<void> {
+  async onClick(event: Event): Promise<void> {
     const BUTTON = event.target as HTMLButtonElement;
     const CAR_ID = Number(BUTTON.dataset.carId as string) || 0;
     console.log(`Remove car with ID: ${CAR_ID}`);

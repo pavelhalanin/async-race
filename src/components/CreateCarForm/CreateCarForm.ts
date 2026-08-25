@@ -11,7 +11,7 @@ export const CreateCardForm = {
       <form id="${CreateCardForm.idForm}">
         <span>Car name:</span>
         <input type="text" name="name">
-        <span>Color:</span>
+        <span>Car color:</span>
         <input type="color" name="color">
         <button class="btn btn-success">Create</button>
       </form>

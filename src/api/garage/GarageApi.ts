@@ -26,6 +26,19 @@ const GarageApi = {
     const TOTAL_COUNT: number = Number(RESPONSE.headers.get('x-total-count'));
     return { CARS, TOTAL_COUNT };
   },
+  async getById(id: number): Promise<IGarage> {
+    const URI = `http://localhost:3000/garage/${id}`;
+
+    const RESPONSE = await fetch(URI);
+
+    const HTTP_STATUS = RESPONSE.status;
+    if (HTTP_STATUS !== 200) {
+      throw new Error(`HTTP ${HTTP_STATUS}`);
+    }
+
+    const DATA = await RESPONSE.json();
+    return DATA;
+  },
   async create(car: IGarageCreate): Promise<Array<IGarage>> {
     const URI = 'http://localhost:3000/garage/';
 
@@ -56,6 +69,25 @@ const GarageApi = {
     if (HTTP_STATUS !== 200) {
       throw new Error(`HTTP ${HTTP_STATUS}`);
     }
+  },
+  async update(car: IGarageCreate, id: number): Promise<IGarage> {
+    const URI = `http://localhost:3000/garage/${id}`;
+
+    const RESPONSE = await fetch(URI, {
+      method: 'PUT',
+      body: JSON.stringify(car),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const HTTP_STATUS = RESPONSE.status;
+    if (HTTP_STATUS !== 200) {
+      throw new Error(`HTTP ${HTTP_STATUS}`);
+    }
+
+    const DATA = await RESPONSE.json();
+    return DATA;
   },
   async generageRandom100Cars(this: HTMLButtonElement): Promise<void> {
     this.setAttribute('disabled', 'true');

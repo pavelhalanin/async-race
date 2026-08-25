@@ -2,7 +2,9 @@ import GarageApi from '../../api/garage/GarageApi';
 import { Car } from '../Car/Car';
 import { CreateCardForm } from '../CreateCarForm/CreateCarForm';
 import { GaragePagination } from '../GaragePagination/GaragePagination';
-import { RemoveCardButton } from '../RemoveCarButton/RemoveCarButton';
+import { RemoveCarButton } from '../RemoveCarButton/RemoveCarButton';
+import { SelectCarButton } from '../SelectCarButton/SelectCarButton';
+import { UpdateCardForm } from '../UpdateCarForm/UpdateCarForm';
 import './Garage.css';
 
 export const Garage = {
@@ -23,7 +25,8 @@ export const Garage = {
       ${CARS.map(car => {
         return `
         <div>
-          ${RemoveCardButton.render(car.id)}
+          ${SelectCarButton.render(car.id)}
+          ${RemoveCarButton.render(car.id)}
           ${car.id} ${car.name}
         </div>
         <div>
@@ -38,8 +41,10 @@ export const Garage = {
     }
 
     CreateCardForm.init();
+    UpdateCardForm.init();
     for (const CAR of CARS) {
-      RemoveCardButton.init(CAR.id);
+      SelectCarButton.init(CAR.id);
+      RemoveCarButton.init(CAR.id);
     }
 
     document

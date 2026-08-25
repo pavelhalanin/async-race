@@ -22,4 +22,11 @@
   --danger-hover-color: #fff;
   --danger-hover-background-color: #bb2d3b;
   --danger-hover-border-color: #b02a37;
+
+  --warning-color: #000;
+  --warning-background-color: #ffc107;
+  --warning-border-color: #ffc107;
+  --warning-hover-color: #000;
+  --warning-hover-background-color: #ffca2c;
+  --warning-hover-border-color: #ffc720;
 }

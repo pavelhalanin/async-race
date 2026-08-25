@@ -1,3 +1,4 @@
+#update_car_form,
 #create_car_form {
   display: flex;
   gap: 8px;
@@ -8,11 +9,13 @@
   border-radius: 4px;
 }
 
+#update_car_form > label,
 #create_car_form > span {
   display: flex;
   align-items: center;
 }
 
+#update_car_form input,
 #create_car_form input {
   border: 1px solid var(--primary-border-color);
   background-color: var(--primary-color);
@@ -20,6 +23,7 @@
   padding: 0.375rem 0.75rem;
 }
 
+#update_car_form input[type='color'],
 #create_car_form input[type='color'] {
   height: 32px;
   width: 100px;
