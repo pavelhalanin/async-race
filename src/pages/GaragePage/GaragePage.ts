@@ -22,7 +22,6 @@ export const GaragePage = {
         <div id="${GaragePagination.idPaginationContainer}"></div>
       `;
       await Garage.render(currentPage, limit);
-      await GaragePagination.render(currentPage, limit);
     } catch (error) {
       DIV.innerHTML = `
         <div>${error}</div>

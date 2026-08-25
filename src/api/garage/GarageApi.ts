@@ -4,20 +4,13 @@ import type { IGarage, IGarageCreate } from '../../types/garage.dto';
 import { HtmlColorHelper } from '../../utils/HtmlColorHelper';
 
 const GarageApi = {
-  async get(): Promise<Array<IGarage>> {
-    const URI = 'http://localhost:3000/garage/';
-
-    const RESPONSE = await fetch(URI);
-
-    const HTTP_STATUS = RESPONSE.status;
-    if (HTTP_STATUS !== 200) {
-      throw new Error(`HTTP ${HTTP_STATUS}`);
-    }
-
-    const DATA = await RESPONSE.json();
-    return DATA;
-  },
-  async getPagination(page: number, limit: number): Promise<Array<IGarage>> {
+  async getPagination(
+    page: number,
+    limit: number
+  ): Promise<{
+    CARS: Array<IGarage>;
+    TOTAL_COUNT: number;
+  }> {
     const URI = `http://localhost:3000/garage/?_page=${page}&_limit=${limit}`;
 
     const RESPONSE = await fetch(URI);
@@ -27,8 +20,9 @@ const GarageApi = {
       throw new Error(`HTTP ${HTTP_STATUS}`);
     }
 
-    const DATA = await RESPONSE.json();
-    return DATA;
+    const CARS = await RESPONSE.json();
+    const TOTAL_COUNT: number = Number(RESPONSE.headers.get('x-total-count'));
+    return { CARS, TOTAL_COUNT };
   },
   async create(car: IGarageCreate): Promise<Array<IGarage>> {
     const URI = 'http://localhost:3000/garage/';
@@ -75,19 +69,6 @@ const GarageApi = {
       await GarageApi.create(CAR);
     }
     await GaragePage.render(1, ENV.limit);
-  },
-  async getCount(): Promise<number> {
-    const URI = `http://localhost:3000/garage/?_page=1&_limit=1`;
-
-    const RESPONSE = await fetch(URI);
-
-    const HTTP_STATUS = RESPONSE.status;
-    if (HTTP_STATUS !== 200) {
-      throw new Error(`HTTP ${HTTP_STATUS}`);
-    }
-
-    const TOTAL_COUNT: number = Number(RESPONSE.headers.get('x-total-count'));
-    return TOTAL_COUNT;
   },
 };
 

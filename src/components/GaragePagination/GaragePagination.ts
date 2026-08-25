@@ -1,4 +1,3 @@
-import GarageApi from '../../api/garage/GarageApi';
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import { Pagination } from '../../utils/Pagination';
@@ -6,7 +5,7 @@ import './GaragePagination.css';
 
 export const GaragePagination = {
   idPaginationContainer: 'garage_pagination',
-  async render(currentPage: number, limit: number): Promise<void> {
+  async render(currentPage: number, limit: number, totalCount: number): Promise<void> {
     const NODE_ID = `#${GaragePagination.idPaginationContainer}`;
     const DIV = document.querySelector(NODE_ID);
     if (!DIV) {
@@ -16,8 +15,7 @@ export const GaragePagination = {
 
     DIV.innerHTML = 'Loading...';
 
-    const TOTAL_COUNT = await GarageApi.getCount();
-    const LAST_PAGE = Pagination.getLastPage(TOTAL_COUNT, limit);
+    const LAST_PAGE = Pagination.getLastPage(totalCount, limit);
 
     let html = `
       <button class="btn btn-primary" id="pagination_prev_button" ${currentPage <= 1 ? 'disabled' : ''}>Prev</button>

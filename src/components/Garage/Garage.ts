@@ -1,6 +1,7 @@
 import GarageApi from '../../api/garage/GarageApi';
 import { Car } from '../Car/Car';
 import { CreateCardForm } from '../CreateCarForm/CreateCarForm';
+import { GaragePagination } from '../GaragePagination/GaragePagination';
 import { RemoveCardButton } from '../RemoveCarButton/RemoveCarButton';
 import './Garage.css';
 
@@ -14,10 +15,13 @@ export const Garage = {
       return;
     }
     DIV.innerHTML = 'Loading...';
-    const CARS = await GarageApi.getPagination(page, limit);
+    const { CARS, TOTAL_COUNT } = await GarageApi.getPagination(page, limit);
 
-    DIV.innerHTML = CARS.map(car => {
-      return `
+    DIV.innerHTML = `
+      <div>Garage (${TOTAL_COUNT})</div>
+      <div>Page #${page}</div>
+      ${CARS.map(car => {
+        return `
         <div>
           ${RemoveCardButton.render(car.id)}
           ${car.id} ${car.name}
@@ -26,7 +30,8 @@ export const Garage = {
           ${Car.render(car.color)}
         </div>
       `;
-    }).join('');
+      }).join('')}
+    `;
 
     if (CARS.length === 0) {
       DIV.innerHTML = 'No cars';
@@ -40,5 +45,7 @@ export const Garage = {
     document
       .querySelector(`#generate_cars`)
       ?.addEventListener('click', GarageApi.generageRandom10Cars);
+
+    await GaragePagination.render(page, limit, TOTAL_COUNT);
   },
 };
