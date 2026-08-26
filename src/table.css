@@ -1,0 +1,24 @@
+.table {
+  caption-side: bottom;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table tbody,
+.table td,
+.table tfoot,
+.table th,
+.table thead,
+.table tr {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+.table-bordered > :not(caption) > * {
+  border-width: 1px 0;
+}
+
+.table-bordered > :not(caption) > * > * {
+  border-width: 0 1px;
+}

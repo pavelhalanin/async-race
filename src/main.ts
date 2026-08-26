@@ -1,6 +1,7 @@
 import './style.css';
 import './const.css';
 import './buttons.css';
+import './table.css';
 
 import { App } from './components/App/App';
 
