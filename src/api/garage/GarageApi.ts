@@ -1,3 +1,4 @@
+import { Garage } from '../../components/Garage/Garage';
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import type { ICarExamples, IGarage, IGarageCreate } from '../../types/garage.dto';
@@ -107,7 +108,7 @@ const GarageApi = {
       };
       await GarageApi.create(CAR);
     }
-    await GaragePage.render(1, ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limit);
 
     this.removeAttribute('disabled');
     this.innerHTML = 'Generate cars';

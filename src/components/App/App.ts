@@ -1,6 +1,7 @@
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import { WinnersPage } from '../../pages/WinnersPage/WinnersPage';
+import { Garage } from '../Garage/Garage';
 import './App.css';
 
 export const App = {
@@ -25,10 +26,10 @@ export const App = {
 
       document
         .querySelector(`#garage_render`)
-        ?.addEventListener('click', async () => GaragePage.render(1, ENV.limit));
+        ?.addEventListener('click', async () => GaragePage.render(Garage.getPage(), ENV.limit));
       document.querySelector(`#winner_render`)?.addEventListener('click', WinnersPage.render);
 
-      await GaragePage.render(1, ENV.limit);
+      await GaragePage.render(Garage.getPage(), ENV.limit);
     } catch (error) {
       DIV.innerHTML = `
         <div style='color: red;'>

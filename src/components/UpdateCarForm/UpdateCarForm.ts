@@ -2,6 +2,7 @@ import GarageApi from '../../api/garage/GarageApi';
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import type { IGarage, IGarageCreate } from '../../types/garage.dto';
+import { Garage } from '../Garage/Garage';
 
 export const UpdateCardForm = {
   idForm: 'update_car_form',
@@ -87,7 +88,7 @@ export const UpdateCardForm = {
     const DATA = UpdateCardForm.getUpdateData();
     const UPDATED_CAR = await GarageApi.update(CAR, DATA.id);
     console.log('Updated car', UPDATED_CAR);
-    await GaragePage.render(1, ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limit);
   },
   getUpdateData(): IGarage {
     const STRING_DATA: string | null = localStorage.getItem(UpdateCardForm.localStorageKey);

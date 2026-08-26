@@ -1,6 +1,7 @@
 import GarageApi from '../../api/garage/GarageApi';
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
+import { Garage } from '../Garage/Garage';
 import { UpdateCardForm } from '../UpdateCarForm/UpdateCarForm';
 
 export const SelectCarButton = {
@@ -31,6 +32,6 @@ export const SelectCarButton = {
     const DATA = await GarageApi.getById(CAR_ID);
     UpdateCardForm.setName(DATA.name);
     UpdateCardForm.setColor(DATA.color);
-    await GaragePage.render(1, ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limit);
   },
 };
