@@ -97,7 +97,7 @@
           Create
         </button>
       </form>
-    `},init(){let e=document.querySelector(`#${p.idForm}`);if(!e){console.error(`Node not found: #${p.idForm}`);return}e.addEventListener(`submit`,p.onSubmit);let t=document.querySelector(`#${p.idNameInput}`);if(!t){console.error(`Node not found: #${p.idNameInput}`);return}t.addEventListener(`input`,function(){p.setName(this.value)});let n=document.querySelector(`#${p.idColorInput}`);if(!n){console.error(`Node not found: #${p.idColorInput}`);return}n.addEventListener(`input`,function(){p.setColor(this.value)})},async onSubmit(t){t.preventDefault();let n=t.target,r=new FormData(n),i={name:r.get(`name`)||`Unnamed car`,color:r.get(`color`)||`#000000`};console.log(`Try to create car`,i);let a=await f.create(i);console.log(`Created car`,a),await m.render(c.getPage(),e.limit)},getCreateData(){let e=localStorage.getItem(p.localStorageKey),t={name:``,color:``};if(e)try{let n=JSON.parse(e);typeof n==`object`&&n&&`name`in n&&typeof n.name==`string`&&(t.name=n.name),typeof n==`object`&&n&&`color`in n&&typeof n.color==`string`&&(t.color=n.color)}catch(e){console.error(e)}return localStorage.setItem(p.localStorageKey,JSON.stringify(t)),t},setName(e){let t=p.getCreateData();t.name=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))},setColor(e){let t=p.getCreateData();t.color=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))}},m={async render(e,t){let n=`#${g.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
+    `},init(){let e=document.querySelector(`#${p.idForm}`);if(!e){console.error(`Node not found: #${p.idForm}`);return}e.addEventListener(`submit`,p.onSubmit);let t=document.querySelector(`#${p.idNameInput}`);if(!t){console.error(`Node not found: #${p.idNameInput}`);return}t.addEventListener(`input`,function(){p.setName(this.value)});let n=document.querySelector(`#${p.idColorInput}`);if(!n){console.error(`Node not found: #${p.idColorInput}`);return}n.addEventListener(`input`,function(){p.setColor(this.value)})},async onSubmit(t){t.preventDefault();let n=t.target,r=new FormData(n),i={name:r.get(`name`)||`Unnamed car`,color:r.get(`color`)||`#000000`};console.log(`Try to create car`,i);let a=await f.create(i);console.log(`Created car`,a),await m.render(c.getPage(),e.limit)},getCreateData(){let e=localStorage.getItem(p.localStorageKey),t={name:``,color:``};if(e)try{let n=JSON.parse(e);typeof n==`object`&&n&&`name`in n&&typeof n.name==`string`&&(t.name=n.name),typeof n==`object`&&n&&`color`in n&&typeof n.color==`string`&&(t.color=n.color)}catch(e){console.error(e)}return localStorage.setItem(p.localStorageKey,JSON.stringify(t)),t},setName(e){let t=p.getCreateData();t.name=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))},setColor(e){let t=p.getCreateData();t.color=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))}},m={async render(e,t){let n=`#${v.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
         ${p.render()}
         ${o.render()}
         <div>
@@ -113,16 +113,43 @@
         <div id="${i.idPaginationContainer}"></div>
       `,await c.render(e,t)}catch(e){r.innerHTML=`
         <div>${e}</div>
-      `}}},h={async render(){let e=`#${g.idContent}`,t=document.querySelector(e);if(!t){console.log(`Node is not found: ${e}`);return}try{t.innerHTML=`Winners page`}catch(e){t.innerHTML=`
+      `}}},h={async getPagination(e,t){let n=`http://localhost:3000/winners/?_page=${e}&_limit=${t}`,r=await fetch(n),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return{WINNERS:await r.json(),TOTAL_COUNT:Number(r.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/winners/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/garage/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/winners/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/garage/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()}},g={idContent:`winners_content`,async render(e,t){let n=`#${g.idContent}`,r=document.querySelector(n);if(!r){console.error(`Node is not found: ${n}`);return}r.innerHTML=`Loading...`;let{WINNERS:i,TOTAL_COUNT:a}=await h.getPagination(e,t);r.innerHTML=`
+      <div>Winners (${a})</div> <div>Page #${e}</div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Car</th>
+            <th>Name</th>
+            <th>Wins</th>
+            <th>Best time (seconds)</th>
+          </tr>
+        </thead>
+        ${g.renderTbody(i)}
+      </table>
+    `},renderTbody(e){return`
+      <tbody>
+        ${e.map(e=>`
+            <tr>
+              <th>${e.id}</th>
+              <th></th>
+              <th></th>
+              <th>${e.wins}</th>
+              <th>${e.time}</th>
+            </tr>
+          `)}
+        ${e.length===0?`<tr><td colspan="5">Table is empty</td></tr>`:``}
+      </tbody>
+    `}},_={async render(){let t=`#${v.idContent}`,n=document.querySelector(t);if(!n){console.log(`Node is not found: ${t}`);return}try{n.innerHTML=`<div id="${g.idContent}"></div>`,await g.render(1,e.limit)}catch(e){n.innerHTML=`
         <div>${e}</div>
-      `}}},g={idRoot:`app`,idContent:`content`,async render(){let t=`#${g.idRoot}`,n=document.querySelector(t);if(!n){console.error(`Node is not found: ${t}`);return}try{n.innerHTML=`
+      `}}},v={idRoot:`app`,idContent:`content`,async render(){let t=`#${v.idRoot}`,n=document.querySelector(t);if(!n){console.error(`Node is not found: ${t}`);return}try{n.innerHTML=`
         <div>
           <button class="btn btn-sm btn-primary" id="garage_render">To garage</button>
           <button class="btn btn-sm btn-primary" id="winner_render">To winners</button>
         </div>
-        <div id="${g.idContent}"></div>
-      `,document.querySelector(`#garage_render`)?.addEventListener(`click`,async()=>m.render(c.getPage(),e.limit)),document.querySelector(`#winner_render`)?.addEventListener(`click`,h.render),await m.render(c.getPage(),e.limit)}catch(e){n.innerHTML=`
+        <div id="${v.idContent}"></div>
+      `,document.querySelector(`#garage_render`)?.addEventListener(`click`,async()=>m.render(c.getPage(),e.limit)),document.querySelector(`#winner_render`)?.addEventListener(`click`,_.render),await m.render(c.getPage(),e.limit)}catch(e){n.innerHTML=`
         <div style='color: red;'>
           ${e}
         </div>
-      `}}};try{g.render()}catch(e){console.error(e)}
+      `}}};try{v.render()}catch(e){console.error(e)}
