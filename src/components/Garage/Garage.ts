@@ -20,20 +20,21 @@ export const Garage = {
     const { CARS, TOTAL_COUNT } = await GarageApi.getPagination(page, limit);
 
     DIV.innerHTML = `
-      <div>Garage (${TOTAL_COUNT})</div>
-      <div>Page #${page}</div>
-      ${CARS.map(car => {
-        return `
-        <div>
-          ${SelectCarButton.render(car.id)}
-          ${RemoveCarButton.render(car.id)}
-          ${car.id} ${car.name}
-        </div>
-        <div>
-          ${Car.render(car.color)}
-        </div>
-      `;
-      }).join('')}
+      <div>Garage (${TOTAL_COUNT})</div> <div>Page #${page}</div>
+      <div class="${Garage.idGarageContent}__cars">
+        ${CARS.map(car => {
+          return `
+          <div>
+            ${SelectCarButton.render(car.id)}
+            ${RemoveCarButton.render(car.id)}
+            ${car.id} ${car.name}
+          </div>
+          <div>
+            ${Car.render(car.color)}
+          </div>
+        `;
+        }).join('')}
+      </div>
     `;
 
     if (CARS.length === 0) {

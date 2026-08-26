@@ -9,11 +9,31 @@ export const CreateCardForm = {
   render(): string {
     return `
       <form id="${CreateCardForm.idForm}">
-        <span>Car name:</span>
-        <input type="text" name="name">
-        <span>Car color:</span>
-        <input type="color" name="color">
-        <button class="btn btn-success">Create</button>
+        <label
+          for="${CreateCardForm.idForm}_create_car_name"
+        >
+          Name:
+        </label>
+        <input
+          id="${CreateCardForm.idForm}_create_car_name"
+          type="text"
+          name="name"
+        >
+        <label
+          for="${CreateCardForm.idForm}_create_car_color"
+        >
+          Color:
+        </label>
+        <input
+          id="${CreateCardForm.idForm}_create_car_color"  
+          type="color"
+          name="color"
+        >
+        <button
+          class="btn btn-sm btn-success"
+        >
+          Create
+        </button>
       </form>
     `;
   },

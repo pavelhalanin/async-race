@@ -17,8 +17,8 @@ export const App = {
     try {
       DIV.innerHTML = `
         <div>
-          <button class="btn btn-primary" id="garage_render">To garage</button>
-          <button class="btn btn-primary" id="winner_render">To winners</button>
+          <button class="btn btn-sm btn-primary" id="garage_render">To garage</button>
+          <button class="btn btn-sm btn-primary" id="winner_render">To winners</button>
         </div>
         <div id="${App.idContent}"></div>
       `;

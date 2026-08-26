@@ -6,7 +6,12 @@ export const RemoveCarButton = {
   idForm: 'create_car_form',
   render(id: number): string {
     return `
-      <button class="btn btn-danger" data-car-id="${id}">Remove</button>
+      <button
+        class="btn btn-sm btn-danger"
+        data-car-id="${id}"
+      >
+        Remove
+      </button>
     `;
   },
   init(id: number): void {

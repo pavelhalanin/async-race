@@ -7,7 +7,12 @@ export const SelectCarButton = {
   idForm: 'select_car_form',
   render(id: number): string {
     return `
-      <button class="btn btn-warning" data-select-car-id="${id}">Select</button>
+      <button
+        class="btn btn-sm btn-warning"
+        data-select-car-id="${id}"
+      >
+        Select
+      </button>
     `;
   },
   init(id: number): void {

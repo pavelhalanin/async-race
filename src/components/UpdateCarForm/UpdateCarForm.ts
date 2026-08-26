@@ -12,12 +12,38 @@ export const UpdateCardForm = {
     const DATA = UpdateCardForm.getUpdateData();
     return `
       <form id="${UpdateCardForm.idForm}">
-        <label for="${UpdateCardForm.idNameInput}">Car name:</label>
-        <input id="${UpdateCardForm.idNameInput}" type="text" name="name" value="${DATA.name}">
-        <label for="${UpdateCardForm.idColorInput}">Car color:</label>
-        <input id="${UpdateCardForm.idColorInput}" type="color" name="color" value="${DATA.color}">
-        <button class="btn btn-success">Update</button>
-        <input type="hidden" name="id" value="${DATA.id}">
+        <label
+          for="${UpdateCardForm.idNameInput}"
+        >
+          Name:
+        </label>
+        <input
+          id="${UpdateCardForm.idNameInput}"
+          type="text"
+          name="name"
+          value="${DATA.name}"
+        >
+        <label
+          for="${UpdateCardForm.idColorInput}"
+        >
+          Color:
+        </label>
+        <input
+          id="${UpdateCardForm.idColorInput}"
+          type="color"
+          name="color"
+          value="${DATA.color}"
+        >
+        <button
+          class="btn btn-sm btn-success"
+        >
+          Update
+        </button>
+        <input
+          type="hidden"
+          name="id"
+          value="${DATA.id}"
+        >
       </form>
     `;
   },

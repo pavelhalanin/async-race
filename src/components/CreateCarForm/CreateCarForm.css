@@ -2,7 +2,7 @@
 #create_car_form {
   display: flex;
   gap: 8px;
-  padding: 8px;
+  padding: 4px;
 
   border: 2px solid var(--primary-border-color);
   margin: 4px 0;
@@ -10,7 +10,7 @@
 }
 
 #update_car_form > label,
-#create_car_form > span {
+#create_car_form > label {
   display: flex;
   align-items: center;
 }
