@@ -1,7 +1,7 @@
-import './style.css';
-import './const.css';
-import './buttons.css';
-import './table.css';
+import './global/style.css';
+import './global/const.css';
+import './global/buttons.css';
+import './global/table.css';
 
 import { App } from './components/App/App';
 
