@@ -1,4 +1,5 @@
 import GarageApi from '../../api/garage/GarageApi';
+import { WinnersApi } from '../../api/winners/WinnersApi';
 import { ENV } from '../../enviroment';
 import { GaragePage } from '../../pages/GaragePage/GaragePage';
 import { Garage } from '../Garage/Garage';
@@ -29,6 +30,7 @@ export const RemoveCarButton = {
     const CAR_ID = Number(BUTTON.dataset.carId as string) || 0;
     console.log(`Remove car with ID: ${CAR_ID}`);
     await GarageApi.remove(CAR_ID);
+    await WinnersApi.remove(CAR_ID);
     await GaragePage.render(Garage.getPage(), ENV.limitCars);
   },
 };
