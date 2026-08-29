@@ -29,6 +29,6 @@ export const RemoveCarButton = {
     const CAR_ID = Number(BUTTON.dataset.carId as string) || 0;
     console.log(`Remove car with ID: ${CAR_ID}`);
     await GarageApi.remove(CAR_ID);
-    await GaragePage.render(Garage.getPage(), ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limitCars);
   },
 };

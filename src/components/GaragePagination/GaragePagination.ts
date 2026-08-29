@@ -32,17 +32,17 @@ export const GaragePagination = {
 
     document
       .querySelector('#pagination_prev_button')
-      ?.addEventListener('click', async () => await GaragePage.render(currentPage - 1, ENV.limit));
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage - 1, ENV.limitCars));
 
     document
       .querySelector('#pagination_next_button')
-      ?.addEventListener('click', async () => await GaragePage.render(currentPage + 1, ENV.limit));
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage + 1, ENV.limitCars));
 
     document.querySelector('#pagination_select')?.addEventListener('change', async event => {
       const target = event.target as HTMLSelectElement;
       if (target) {
         const selectedPage = parseInt(target.value);
-        await GaragePage.render(selectedPage, ENV.limit);
+        await GaragePage.render(selectedPage, ENV.limitCars);
       }
     });
   },

@@ -27,12 +27,12 @@ export const App = {
 
       document
         .querySelector(`#garage_render`)
-        ?.addEventListener('click', async () => GaragePage.render(Garage.getPage(), ENV.limit));
+        ?.addEventListener('click', async () => GaragePage.render(Garage.getPage(), ENV.limitCars));
       document
         .querySelector(`#winner_render`)
         ?.addEventListener('click', () => WinnersPage.render(Winners.getPage(), ENV.limitWinners));
 
-      await GaragePage.render(Garage.getPage(), ENV.limit);
+      await GaragePage.render(Garage.getPage(), ENV.limitCars);
     } catch (error) {
       DIV.innerHTML = `
         <div style='color: red;'>

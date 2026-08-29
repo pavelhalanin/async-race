@@ -108,7 +108,7 @@ const GarageApi = {
       };
       await GarageApi.create(CAR);
     }
-    await GaragePage.render(Garage.getPage(), ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limitCars);
 
     this.removeAttribute('disabled');
     this.innerHTML = 'Generate cars';

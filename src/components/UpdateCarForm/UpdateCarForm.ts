@@ -88,7 +88,7 @@ export const UpdateCardForm = {
     const DATA = UpdateCardForm.getUpdateData();
     const UPDATED_CAR = await GarageApi.update(CAR, DATA.id);
     console.log('Updated car', UPDATED_CAR);
-    await GaragePage.render(Garage.getPage(), ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limitCars);
   },
   getUpdateData(): IGarage {
     const STRING_DATA: string | null = localStorage.getItem(UpdateCardForm.localStorageKey);

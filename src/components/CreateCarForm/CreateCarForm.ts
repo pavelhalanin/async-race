@@ -83,7 +83,7 @@ export const CreateCardForm = {
     console.log('Try to create car', CAR);
     const CREATED_CAR = await GarageApi.create(CAR);
     console.log('Created car', CREATED_CAR);
-    await GaragePage.render(Garage.getPage(), ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limitCars);
   },
   getCreateData(): IGarageCreate {
     const STRING_DATA: string | null = localStorage.getItem(CreateCardForm.localStorageKey);

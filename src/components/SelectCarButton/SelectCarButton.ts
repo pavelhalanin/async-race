@@ -32,6 +32,6 @@ export const SelectCarButton = {
     const DATA = await GarageApi.getById(CAR_ID);
     UpdateCardForm.setName(DATA.name);
     UpdateCardForm.setColor(DATA.color);
-    await GaragePage.render(Garage.getPage(), ENV.limit);
+    await GaragePage.render(Garage.getPage(), ENV.limitCars);
   },
 };
