@@ -1,4 +1,4 @@
-(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e={limit:7},t={getLastPage(e,t){return Math.ceil(e/t)}},n=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M147 170.7L117.2 256L240.1 256L240.1 160L162.2 160C155.4 160 149.3 164.3 147.1 170.7zM48.6 257.9L86.5 149.6C97.8 117.5 128.1 96 162.1 96L360 96C385.2 96 408.9 107.9 424 128L520.2 256.3C587.1 260.5 640 316.1 640 384L640 400C640 435.3 611.3 464 576 464L559.6 464C555.6 508.9 517.9 544 472 544C426.1 544 388.4 508.9 384.4 464L239.7 464C235.7 508.9 198 544 152.1 544C106.2 544 68.5 508.9 64.5 464L64.1 464C28.8 464 .1 435.3 .1 400L.1 320C.1 289.9 20.8 264.7 48.7 257.9zM440 256L372.8 166.4C369.8 162.4 365 160 360 160L288 160L288 256L440 256zM152 496C174.1 496 192 478.1 192 456C192 433.9 174.1 416 152 416C129.9 416 112 433.9 112 456C112 478.1 129.9 496 152 496zM512 456C512 433.9 494.1 416 472 416C449.9 416 432 433.9 432 456C432 478.1 449.9 496 472 496C494.1 496 512 478.1 512 456z"/></svg>`,r={render(e){return`<span class="car__wrapper" style="color: ${e};">${n.replaceAll(/fill="[^"]*"/g,``).replace(`<svg`,`<svg fill="currentColor"`)}</span>`}},i={idPaginationContainer:`garage_pagination`,async render(n,r,a){let o=`#${i.idPaginationContainer}`,s=document.querySelector(o);if(!s){console.error(`Node is not found: ${o}`);return}s.innerHTML=`Loading...`;let c=t.getLastPage(a,r);s.innerHTML=`
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e={limit:7,limitWinners:7},t={getLastPage(e,t){return Math.ceil(e/t)}},n=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M147 170.7L117.2 256L240.1 256L240.1 160L162.2 160C155.4 160 149.3 164.3 147.1 170.7zM48.6 257.9L86.5 149.6C97.8 117.5 128.1 96 162.1 96L360 96C385.2 96 408.9 107.9 424 128L520.2 256.3C587.1 260.5 640 316.1 640 384L640 400C640 435.3 611.3 464 576 464L559.6 464C555.6 508.9 517.9 544 472 544C426.1 544 388.4 508.9 384.4 464L239.7 464C235.7 508.9 198 544 152.1 544C106.2 544 68.5 508.9 64.5 464L64.1 464C28.8 464 .1 435.3 .1 400L.1 320C.1 289.9 20.8 264.7 48.7 257.9zM440 256L372.8 166.4C369.8 162.4 365 160 360 160L288 160L288 256L440 256zM152 496C174.1 496 192 478.1 192 456C192 433.9 174.1 416 152 416C129.9 416 112 433.9 112 456C112 478.1 129.9 496 152 496zM512 456C512 433.9 494.1 416 472 416C449.9 416 432 433.9 432 456C432 478.1 449.9 496 472 496C494.1 496 512 478.1 512 456z"/></svg>`,r={render(e){return`<span class="car__wrapper" style="color: ${e};">${n.replaceAll(/fill="[^"]*"/g,``).replace(`<svg`,`<svg fill="currentColor"`)}</span>`}},i={idPaginationContainer:`garage_pagination`,async render(n,r,a){let o=`#${i.idPaginationContainer}`,s=document.querySelector(o);if(!s){console.error(`Node is not found: ${o}`);return}s.innerHTML=`Loading...`;let c=t.getLastPage(a,r);s.innerHTML=`
       <button class="btn btn-primary" id="pagination_prev_button" ${n<=1?`disabled`:``}>Prev</button>
       <select id="pagination_select" class="btn">
         ${Array.from({length:c},(e,t)=>{let r=t+1;return`<option value="${r}" ${r===n?`selected`:``}>${r}</option>`}).join(``)}
@@ -97,7 +97,7 @@
           Create
         </button>
       </form>
-    `},init(){let e=document.querySelector(`#${p.idForm}`);if(!e){console.error(`Node not found: #${p.idForm}`);return}e.addEventListener(`submit`,p.onSubmit);let t=document.querySelector(`#${p.idNameInput}`);if(!t){console.error(`Node not found: #${p.idNameInput}`);return}t.addEventListener(`input`,function(){p.setName(this.value)});let n=document.querySelector(`#${p.idColorInput}`);if(!n){console.error(`Node not found: #${p.idColorInput}`);return}n.addEventListener(`input`,function(){p.setColor(this.value)})},async onSubmit(t){t.preventDefault();let n=t.target,r=new FormData(n),i={name:r.get(`name`)||`Unnamed car`,color:r.get(`color`)||`#000000`};console.log(`Try to create car`,i);let a=await f.create(i);console.log(`Created car`,a),await m.render(c.getPage(),e.limit)},getCreateData(){let e=localStorage.getItem(p.localStorageKey),t={name:``,color:``};if(e)try{let n=JSON.parse(e);typeof n==`object`&&n&&`name`in n&&typeof n.name==`string`&&(t.name=n.name),typeof n==`object`&&n&&`color`in n&&typeof n.color==`string`&&(t.color=n.color)}catch(e){console.error(e)}return localStorage.setItem(p.localStorageKey,JSON.stringify(t)),t},setName(e){let t=p.getCreateData();t.name=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))},setColor(e){let t=p.getCreateData();t.color=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))}},m={async render(e,t){let n=`#${v.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
+    `},init(){let e=document.querySelector(`#${p.idForm}`);if(!e){console.error(`Node not found: #${p.idForm}`);return}e.addEventListener(`submit`,p.onSubmit);let t=document.querySelector(`#${p.idNameInput}`);if(!t){console.error(`Node not found: #${p.idNameInput}`);return}t.addEventListener(`input`,function(){p.setName(this.value)});let n=document.querySelector(`#${p.idColorInput}`);if(!n){console.error(`Node not found: #${p.idColorInput}`);return}n.addEventListener(`input`,function(){p.setColor(this.value)})},async onSubmit(t){t.preventDefault();let n=t.target,r=new FormData(n),i={name:r.get(`name`)||`Unnamed car`,color:r.get(`color`)||`#000000`};console.log(`Try to create car`,i);let a=await f.create(i);console.log(`Created car`,a),await m.render(c.getPage(),e.limit)},getCreateData(){let e=localStorage.getItem(p.localStorageKey),t={name:``,color:``};if(e)try{let n=JSON.parse(e);typeof n==`object`&&n&&`name`in n&&typeof n.name==`string`&&(t.name=n.name),typeof n==`object`&&n&&`color`in n&&typeof n.color==`string`&&(t.color=n.color)}catch(e){console.error(e)}return localStorage.setItem(p.localStorageKey,JSON.stringify(t)),t},setName(e){let t=p.getCreateData();t.name=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))},setColor(e){let t=p.getCreateData();t.color=e,localStorage.setItem(p.localStorageKey,JSON.stringify(t))}},m={async render(e,t){let n=`#${y.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
         ${p.render()}
         ${o.render()}
         <div>
@@ -113,43 +113,60 @@
         <div id="${i.idPaginationContainer}"></div>
       `,await c.render(e,t)}catch(e){r.innerHTML=`
         <div>${e}</div>
-      `}}},h={async getPagination(e,t){let n=`http://localhost:3000/winners/?_page=${e}&_limit=${t}`,r=await fetch(n),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return{WINNERS:await r.json(),TOTAL_COUNT:Number(r.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/winners/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/garage/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/winners/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/garage/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()}},g={idContent:`winners_content`,async render(e,t){let n=`#${g.idContent}`,r=document.querySelector(n);if(!r){console.error(`Node is not found: ${n}`);return}r.innerHTML=`Loading...`;let{WINNERS:i,TOTAL_COUNT:a}=await h.getPagination(e,t);r.innerHTML=`
+      `}}},h={async getPagination(e,t){let n=`http://localhost:3000/winners/?_page=${e}&_limit=${t}`,r=await fetch(n),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return{WINNERS:await r.json(),TOTAL_COUNT:Number(r.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/winners/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/garage/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/winners/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/garage/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()}},g={idContainer:`winners_pagination`,async render(n,r,i){let a=`#${g.idContainer}`,o=document.querySelector(a);if(!o){console.error(`Node is not found: ${a}`);return}o.innerHTML=`Loading...`;let s=t.getLastPage(i,r);o.innerHTML=`
+      <button class="btn btn-primary" id="pagination_prev_button" ${n<=1?`disabled`:``}>Prev</button>
+      <select id="pagination_select" class="btn">
+        ${Array.from({length:s},(e,t)=>{let r=t+1;return`<option value="${r}" ${r===n?`selected`:``}>${r}</option>`}).join(``)}
+      </select>
+      <button class="btn btn-primary" id="pagination_next_button" ${n>=s?`disabled`:``}>Next</button>
+    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await v.render(n-1,e.limitWinners)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await v.render(n+1,e.limitWinners)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n){let t=parseInt(n.value);await v.render(t,e.limitWinners)}})}},_={idContent:`winners_content`,localStoragePage:`async_race__winners_selected_page`,async render(e,t){let n=`#${_.idContent}`,r=document.querySelector(n);if(!r){console.error(`Node is not found: ${n}`);return}r.innerHTML=`Loading...`;let{WINNERS:i,TOTAL_COUNT:a}=await h.getPagination(e,t);_.savePage(e),r.innerHTML=`
       <div>Winners (${a})</div> <div>Page #${e}</div>
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>Number</th>
-            <th>Car</th>
+            <th width="100">Number</th>
+            <th width="70">Car</th>
             <th>Name</th>
-            <th>Wins</th>
-            <th>Best time (seconds)</th>
+            <th width="100">Wins</th>
+            <th width="150">Best time (seconds)</th>
           </tr>
         </thead>
-        ${g.renderTbody(i)}
+        ${await _.renderTbody(i)}
       </table>
-    `},renderTbody(e){return`
+    `,await _.componentDidMount(e,t,a)},async renderTbody(e){return`
       <tbody>
-        ${e.map(e=>`
+        ${(await Promise.all(e.map(async e=>{try{let t=await f.getById(e.id);return`
             <tr>
-              <th>${e.id}</th>
-              <th></th>
-              <th></th>
-              <th>${e.wins}</th>
-              <th>${e.time}</th>
+              <td align="right">${e.id}</td>
+              <td align="center">${r.render(t.color)}</td>
+              <td>${t.name}</td>
+              <td align="right">${e.wins}</td>
+              <td align="right">${e.time}</td>
             </tr>
-          `)}
+          `}catch(t){return`
+            <tr>
+              <td>${e.id}</td>
+              <td>${t}</td>
+              <td>${t}</td>
+              <td>${e.wins}</td>
+              <td>${e.time}</td>
+            </tr>
+          `}}))).join(``)}
         ${e.length===0?`<tr><td colspan="5">Table is empty</td></tr>`:``}
       </tbody>
-    `}},_={async render(){let t=`#${v.idContent}`,n=document.querySelector(t);if(!n){console.log(`Node is not found: ${t}`);return}try{n.innerHTML=`<div id="${g.idContent}"></div>`,await g.render(1,e.limit)}catch(e){n.innerHTML=`
+    `},getPage(){return Number(localStorage.getItem(_.localStoragePage)||1)||1},savePage(e){localStorage.setItem(_.localStoragePage,String(e))},fixPage(e,n,r){let i=t.getLastPage(r,n);e>i&&(_.savePage(i),_.render(i,n))},async componentDidMount(e,t,n){await g.render(e,t,n),_.fixPage(e,t,n)}},v={async render(e,t){let n=`#${y.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
+        <div id="${_.idContent}"></div>
+        <div id="${g.idContainer}"></div>
+      `,await _.render(e,t)}catch(e){r.innerHTML=`
         <div>${e}</div>
-      `}}},v={idRoot:`app`,idContent:`content`,async render(){let t=`#${v.idRoot}`,n=document.querySelector(t);if(!n){console.error(`Node is not found: ${t}`);return}try{n.innerHTML=`
+      `}}},y={idRoot:`app`,idContent:`content`,async render(){let t=`#${y.idRoot}`,n=document.querySelector(t);if(!n){console.error(`Node is not found: ${t}`);return}try{n.innerHTML=`
         <div>
           <button class="btn btn-sm btn-primary" id="garage_render">To garage</button>
           <button class="btn btn-sm btn-primary" id="winner_render">To winners</button>
         </div>
-        <div id="${v.idContent}"></div>
-      `,document.querySelector(`#garage_render`)?.addEventListener(`click`,async()=>m.render(c.getPage(),e.limit)),document.querySelector(`#winner_render`)?.addEventListener(`click`,_.render),await m.render(c.getPage(),e.limit)}catch(e){n.innerHTML=`
+        <div id="${y.idContent}"></div>
+      `,document.querySelector(`#garage_render`)?.addEventListener(`click`,async()=>m.render(c.getPage(),e.limit)),document.querySelector(`#winner_render`)?.addEventListener(`click`,()=>v.render(_.getPage(),e.limitWinners)),await m.render(c.getPage(),e.limit)}catch(e){n.innerHTML=`
         <div style='color: red;'>
           ${e}
         </div>
-      `}}};try{v.render()}catch(e){console.error(e)}
+      `}}};try{y.render()}catch(e){console.error(e)}
