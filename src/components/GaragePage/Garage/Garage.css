@@ -24,3 +24,25 @@
   background: var(--primary-border-color);
   border-radius: 5px;
 }
+
+.garage_content__car_road {
+  border-bottom: 1px dashed black;
+  position: relative;
+
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+.garage_content__car_road .car__wrapper {
+  position: absolute;
+  left: 0;
+}
+
+@keyframes moveRight {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 48px);
+  }
+}

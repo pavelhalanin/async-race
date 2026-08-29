@@ -1,3 +1,4 @@
+import { EngineApi } from '../../../api/engine/EngineApi';
 import GarageApi from '../../../api/garage/GarageApi';
 import type { IGarage } from '../../../types/garage.dto';
 import { Pagination } from '../../../utils/Pagination';
@@ -33,9 +34,11 @@ export const Garage = {
             ${RemoveCarButton.render(car.id)}
             ${car.id} ${car.name}
           </div>
-          <div>
+          <button class="btn btn-sm btn-primary" data-button-car-start="${car.id}">A</button>
+          <div class="garage_content__car_road" data-car-image="${car.id}">
             ${Car.render(car.color)}
           </div>
+          <div data-car-css="${car.id}"></div>
         `;
         }).join('')}
       </div>
@@ -46,6 +49,49 @@ export const Garage = {
     }
 
     await Garage.componentDidMount(CARS, page, limit, TOTAL_COUNT);
+    Garage.addEventForCars(CARS);
+  },
+  addEventForCars(cars: Array<IGarage>): void {
+    for (const CAR of cars) {
+      const ID = String(CAR.id);
+      document
+        .querySelector(`button[data-button-car-start="${CSS.escape(ID)}"]`)
+        ?.addEventListener('click', async () => await Garage.startCar(CAR.id));
+    }
+  },
+  async startCar(id: number): Promise<void> {
+    try {
+      const ID = String(id);
+
+      const CAR_ICON_SELECTOR = `div[data-car-image="${CSS.escape(ID)}"] .car__wrapper`;
+      const CAR_ICON = document.querySelector(CAR_ICON_SELECTOR);
+      if (!CAR_ICON) {
+        throw new Error(`Node is not found ${CAR_ICON_SELECTOR}`);
+      }
+      CAR_ICON.classList.remove(`animate--${ID}`);
+
+      const DATA = await EngineApi.engineStart(id);
+      const TIME = DATA.distance / 1000 / DATA.velocity;
+
+      const CSS_SELECTOR = `div[data-car-css="${CSS.escape(ID)}"]`;
+      const DIV_CSS = document.querySelector(CSS_SELECTOR);
+      if (!DIV_CSS) {
+        throw new Error(`Node is not found ${CSS_SELECTOR}`);
+      }
+      if (DIV_CSS instanceof HTMLElement) {
+        DIV_CSS.innerHTML = `
+            <style>
+            .garage_content__car_road .car__wrapper.animate--${ID} {
+              animation: moveRight ${TIME}s linear forwards;
+            }
+            </style>
+          `;
+      }
+
+      CAR_ICON.classList.add(`animate--${ID}`);
+    } catch (error) {
+      alert(error);
+    }
   },
   getPage(): number {
     return Number(localStorage.getItem(Garage.localStoragePage) || 1) || 1;
