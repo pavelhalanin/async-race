@@ -1,8 +1,8 @@
 import { App } from '../../components/App/App';
-import { CreateCardForm } from '../../components/CreateCarForm/CreateCarForm';
-import { Garage } from '../../components/Garage/Garage';
-import { GaragePagination } from '../../components/GaragePagination/GaragePagination';
-import { UpdateCardForm } from '../../components/UpdateCarForm/UpdateCarForm';
+import { CreateCardForm } from './CreateCarForm/CreateCarForm';
+import { Garage } from './Garage/Garage';
+import { GaragePagination } from './GaragePagination/GaragePagination';
+import { UpdateCardForm } from './UpdateCarForm/UpdateCarForm';
 
 export const GaragePage = {
   async render(currentPage: number, limit: number): Promise<void> {

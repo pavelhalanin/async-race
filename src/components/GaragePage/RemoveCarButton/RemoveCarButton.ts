@@ -1,7 +1,7 @@
-import GarageApi from '../../api/garage/GarageApi';
-import { WinnersApi } from '../../api/winners/WinnersApi';
-import { ENV } from '../../enviroment';
-import { GaragePage } from '../../pages/GaragePage/GaragePage';
+import GarageApi from '../../../api/garage/GarageApi';
+import { WinnersApi } from '../../../api/winners/WinnersApi';
+import { ENV } from '../../../enviroment';
+import { GaragePage } from '../GaragePage';
 import { Garage } from '../Garage/Garage';
 
 export const RemoveCarButton = {

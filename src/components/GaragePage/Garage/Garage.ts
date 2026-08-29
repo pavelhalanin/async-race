@@ -1,7 +1,7 @@
-import GarageApi from '../../api/garage/GarageApi';
-import type { IGarage } from '../../types/garage.dto';
-import { Pagination } from '../../utils/Pagination';
-import { Car } from '../Car/Car';
+import GarageApi from '../../../api/garage/GarageApi';
+import type { IGarage } from '../../../types/garage.dto';
+import { Pagination } from '../../../utils/Pagination';
+import { Car } from '../../Car/Car';
 import { CreateCardForm } from '../CreateCarForm/CreateCarForm';
 import { GaragePagination } from '../GaragePagination/GaragePagination';
 import { RemoveCarButton } from '../RemoveCarButton/RemoveCarButton';

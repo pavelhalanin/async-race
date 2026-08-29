@@ -1,6 +1,6 @@
-import { Garage } from '../../components/Garage/Garage';
+import { Garage } from '../../components/GaragePage/Garage/Garage';
 import { ENV } from '../../enviroment';
-import { GaragePage } from '../../pages/GaragePage/GaragePage';
+import { GaragePage } from '../../components/GaragePage/GaragePage';
 import type { ICarExamples, IGarage, IGarageCreate } from '../../types/garage.dto';
 import { HtmlColorHelper } from '../../utils/HtmlColorHelper';
 import { Random } from '../../utils/Radnom';

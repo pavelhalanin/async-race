@@ -1,6 +1,6 @@
-import { ENV } from '../../enviroment';
-import { WinnersPage } from '../WinnersPage/WinnersPage';
-import { Pagination } from '../../utils/Pagination';
+import { ENV } from '../../../enviroment';
+import { WinnersPage } from '../../WinnersPage/WinnersPage';
+import { Pagination } from '../../../utils/Pagination';
 
 export const WinnersPagination = {
   idContainer: 'winners_pagination',

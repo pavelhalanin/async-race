@@ -1,6 +1,6 @@
-import GarageApi from '../../api/garage/GarageApi';
-import { ENV } from '../../enviroment';
-import { GaragePage } from '../../pages/GaragePage/GaragePage';
+import GarageApi from '../../../api/garage/GarageApi';
+import { ENV } from '../../../enviroment';
+import { GaragePage } from '../GaragePage';
 import { Garage } from '../Garage/Garage';
 import { UpdateCardForm } from '../UpdateCarForm/UpdateCarForm';
 

@@ -1,7 +1,7 @@
-import GarageApi from '../../api/garage/GarageApi';
-import { ENV } from '../../enviroment';
-import { GaragePage } from '../../pages/GaragePage/GaragePage';
-import type { IGarageCreate } from '../../types/garage.dto';
+import GarageApi from '../../../api/garage/GarageApi';
+import { ENV } from '../../../enviroment';
+import { GaragePage } from '../../GaragePage/GaragePage';
+import type { IGarageCreate } from '../../../types/garage.dto';
 import { Garage } from '../Garage/Garage';
 import './CreateCarForm.css';
 

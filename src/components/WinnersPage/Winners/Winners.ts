@@ -1,8 +1,8 @@
-import GarageApi from '../../api/garage/GarageApi';
-import { WinnersApi } from '../../api/winners/WinnersApi';
-import type { IWinner } from '../../types/winner.dto';
-import { Pagination } from '../../utils/Pagination';
-import { Car } from '../Car/Car';
+import GarageApi from '../../../api/garage/GarageApi';
+import { WinnersApi } from '../../../api/winners/WinnersApi';
+import type { IWinner } from '../../../types/winner.dto';
+import { Pagination } from '../../../utils/Pagination';
+import { Car } from '../../Car/Car';
 import { WinnersPagination } from '../WinnersPagination/WinnersPagination';
 
 export const Winners = {

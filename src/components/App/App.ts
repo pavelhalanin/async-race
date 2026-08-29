@@ -1,8 +1,8 @@
 import { ENV } from '../../enviroment';
-import { GaragePage } from '../../pages/GaragePage/GaragePage';
-import { WinnersPage } from '../../pages/WinnersPage/WinnersPage';
-import { Garage } from '../Garage/Garage';
-import { Winners } from '../Winners/Winners';
+import { GaragePage } from '../../components/GaragePage/GaragePage';
+import { WinnersPage } from '../../components/WinnersPage/WinnersPage';
+import { Garage } from '../GaragePage/Garage/Garage';
+import { Winners } from '../WinnersPage/Winners/Winners';
 import './App.css';
 
 export const App = {

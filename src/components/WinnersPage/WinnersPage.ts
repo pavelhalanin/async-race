@@ -1,6 +1,6 @@
 import { App } from '../../components/App/App';
-import { Winners } from '../../components/Winners/Winners';
-import { WinnersPagination } from '../../components/WinnersPagination/WinnersPagination';
+import { Winners } from '../../components/WinnersPage/Winners/Winners';
+import { WinnersPagination } from './WinnersPagination/WinnersPagination';
 
 export const WinnersPage = {
   async render(selectedPage: number, limit: number): Promise<void> {
