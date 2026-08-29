@@ -76,12 +76,17 @@ export const UpdateCardForm = {
   },
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
+
+    const FORM = event.target;
+    if (!(FORM instanceof HTMLFormElement)) {
+      return;
+    }
+
+    const FORM_DATA = new FormData(FORM);
 
     const CAR: IGarageCreate = {
-      name: (formData.get('name') as string) || 'Unnamed car',
-      color: (formData.get('color') as string) || '#000000',
+      name: FORM_DATA.get('name')?.toString() || 'Unnamed car',
+      color: FORM_DATA.get('color')?.toString() || '#000000',
     };
 
     console.log('Try to update car', CAR);

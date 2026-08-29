@@ -26,8 +26,12 @@ export const RemoveCarButton = {
     BUTTON.addEventListener('click', RemoveCarButton.onClick);
   },
   async onClick(event: Event): Promise<void> {
-    const BUTTON = event.target as HTMLButtonElement;
-    const CAR_ID = Number(BUTTON.dataset.carId as string) || 0;
+    const BUTTON = event.target;
+    if (!(BUTTON instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const CAR_ID = Number(BUTTON.dataset.carId) || 0;
     console.log(`Remove car with ID: ${CAR_ID}`);
     await GarageApi.remove(CAR_ID);
     await WinnersApi.remove(CAR_ID);

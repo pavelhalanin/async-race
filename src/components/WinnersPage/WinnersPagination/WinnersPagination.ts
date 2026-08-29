@@ -44,9 +44,9 @@ export const WinnersPagination = {
       );
 
     document.querySelector('#pagination_select')?.addEventListener('change', async event => {
-      const target = event.target as HTMLSelectElement;
-      if (target) {
-        const selectedPage = parseInt(target.value);
+      const TARGET = event.target;
+      if (TARGET instanceof HTMLSelectElement) {
+        const selectedPage = parseInt(TARGET.value);
         await WinnersPage.render(selectedPage, ENV.limitWinners);
       }
     });

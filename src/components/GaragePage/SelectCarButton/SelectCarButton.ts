@@ -26,8 +26,12 @@ export const SelectCarButton = {
     BUTTON.addEventListener('click', SelectCarButton.onClick);
   },
   async onClick(event: Event): Promise<void> {
-    const BUTTON = event.target as HTMLButtonElement;
-    const CAR_ID = Number(BUTTON.dataset.selectCarId as string) || 0;
+    const BUTTON = event.target;
+    if (!(BUTTON instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const CAR_ID = Number(BUTTON.dataset.selectCarId) || 0;
     UpdateCardForm.setId(CAR_ID);
     const DATA = await GarageApi.getById(CAR_ID);
     UpdateCardForm.setName(DATA.name);
