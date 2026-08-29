@@ -7,7 +7,7 @@ import './CreateCarForm.css';
 
 export const CreateCardForm = {
   idForm: 'create_car_form',
-  localStorageKey: 'async_race__create_data',
+  localStorageKey: 'async_race__car_create_data',
   idNameInput: 'create_car__name_input',
   idColorInput: 'create_car__color_input',
   render(): string {

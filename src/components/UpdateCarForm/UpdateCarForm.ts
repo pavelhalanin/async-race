@@ -6,7 +6,7 @@ import { Garage } from '../Garage/Garage';
 
 export const UpdateCardForm = {
   idForm: 'update_car_form',
-  localStorageKey: 'async_race__update_data',
+  localStorageKey: 'async_race__car_update_data',
   idNameInput: 'update_car__name_input',
   idColorInput: 'update_car__color_input',
   render(): string {
