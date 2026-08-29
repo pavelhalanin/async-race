@@ -4,7 +4,7 @@
         ${Array.from({length:c},(e,n)=>{let r=n+1;return`<option value="${r}" ${r===t?`selected`:``}>${r}</option>`}).join(``)}
       </select>
       <button class="btn btn-primary" id="pagination_next_button" ${t>=c?`disabled`:``}>Next</button>
-    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await g.render(t-1,e.limitCars)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await g.render(t+1,e.limitCars)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n){let t=parseInt(n.value);await g.render(t,e.limitCars)}})}},o={async getPagination(e,t){let n=`http://localhost:3000/winners/?_page=${e}&_limit=${t}`,r=await fetch(n),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return{WINNERS:await r.json(),TOTAL_COUNT:Number(r.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/winners/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/garage/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/winners/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/garage/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()}},s={idForm:`create_car_form`,render(e){return`
+    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await g.render(t-1,e.limitCars)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await g.render(t+1,e.limitCars)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n){let t=parseInt(n.value);await g.render(t,e.limitCars)}})}},o={paginationTypeSort:Object.freeze({noSort:0,idAsc:1,idDesc:2,winsAsc:3,winsDesc:4,timeAsc:5,timeDesc:6}),async getPagination(e,t,n=0){let r=`http://localhost:3000/winners/?_page=${e}&_limit=${t}`,i={[o.paginationTypeSort.idAsc]:{sort:`id`,order:`ASC`},[o.paginationTypeSort.idDesc]:{sort:`id`,order:`DESC`},[o.paginationTypeSort.winsAsc]:{sort:`wins`,order:`ASC`},[o.paginationTypeSort.winsDesc]:{sort:`wins`,order:`DESC`},[o.paginationTypeSort.timeAsc]:{sort:`time`,order:`ASC`},[o.paginationTypeSort.timeDesc]:{sort:`time`,order:`DESC`}}[n];i&&(r+=`&_sort=${i.sort}&_order=${i.order}`);let a=await fetch(r),s=a.status;if(s!==200)throw Error(`HTTP ${s}`);return{WINNERS:await a.json(),TOTAL_COUNT:Number(a.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/winners/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/garage/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/winners/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/garage/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()}},s={idForm:`create_car_form`,render(e){return`
       <button
         class="btn btn-sm btn-danger"
         data-car-id="${e}"
@@ -127,21 +127,41 @@
         ${Array.from({length:s},(e,n)=>{let r=n+1;return`<option value="${r}" ${r===t?`selected`:``}>${r}</option>`}).join(``)}
       </select>
       <button class="btn btn-primary" id="pagination_next_button" ${t>=s?`disabled`:``}>Next</button>
-    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await y.render(t-1,e.limitWinners)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await y.render(t+1,e.limitWinners)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n){let t=parseInt(n.value);await y.render(t,e.limitWinners)}})}},v={idContent:`winners_content`,localStoragePage:`async_race__winners_selected_page`,async render(e,t){let n=`#${v.idContent}`,r=document.querySelector(n);if(!r){console.error(`Node is not found: ${n}`);return}r.innerHTML=`Loading...`;let{WINNERS:i,TOTAL_COUNT:a}=await o.getPagination(e,t);v.savePage(e),r.innerHTML=`
-      <div>Winners (${a})</div> <div>Page #${e}</div>
+    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await y.render(t-1,e.limitWinners)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await y.render(t+1,e.limitWinners)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n){let t=parseInt(n.value);await y.render(t,e.limitWinners)}})}},v={idContent:`winners_content`,localStoragePage:`async_race__winners_selected_page`,async render(e,t,n){let r=`#${v.idContent}`,i=document.querySelector(r);if(!i){console.error(`Node is not found: ${r}`);return}i.innerHTML=`Loading...`;let{WINNERS:a,TOTAL_COUNT:s}=await o.getPagination(e,t,n);v.savePage(e),i.innerHTML=`
+      <div>Winners (${s})</div> <div>Page #${e}</div>
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th width="100">Number</th>
+            <th width="120" class="winners__th">
+              Number
+              ${v.getSortButton(0,n,o.paginationTypeSort.idDesc,`winners_sort_id_desc_button`)}
+              ${v.getSortButton(1,n,o.paginationTypeSort.idAsc,`winners_sort_id_asc_button`)}
+            </th>
             <th width="70">Car</th>
             <th>Name</th>
-            <th width="100">Wins</th>
-            <th width="150">Best time (seconds)</th>
+            <th width="100" class="winners__th">
+              Wins
+              ${v.getSortButton(0,n,o.paginationTypeSort.winsDesc,`winners_sort_wins_desc_button`)}
+              ${v.getSortButton(1,n,o.paginationTypeSort.winsAsc,`winners_sort_wins_asc_button`)}
+            </th>
+            <th width="200" class="winners__th">
+              Best time (seconds)
+              ${v.getSortButton(0,n,o.paginationTypeSort.timeDesc,`winners_sort_time_desc_button`)}
+              ${v.getSortButton(1,n,o.paginationTypeSort.timeAsc,`winners_sort_time_asc_button`)}
+            </th>
           </tr>
         </thead>
-        ${await v.renderTbody(i)}
+        ${await v.renderTbody(a)}
       </table>
-    `,await v.componentDidMount(e,t,a)},async renderTbody(e){return`
+    `,await v.componentDidMount(e,t,s,n)},getSortButton(e,t,n,r){return`
+      <button
+        class="btn btn-sm btn-primary ${e==0?`winners__button_top`:`winners__button_bottom`}"
+        id="${r}"
+        ${t==n?`disabled`:``}
+      >
+        ${e==0?`↑`:`↓`}
+      </button>
+    `},async renderTbody(e){return`
       <tbody>
         ${(await Promise.all(e.map(async e=>{try{let t=await m.getById(e.id);return`
             <tr>
@@ -153,19 +173,19 @@
             </tr>
           `}catch(t){return`
             <tr>
-              <td>${e.id}</td>
+              <td align="right">${e.id}</td>
               <td>${t}</td>
               <td>${t}</td>
-              <td>${e.wins}</td>
-              <td>${e.time}</td>
+              <td align="right">${e.wins}</td>
+              <td align="right">${e.time}</td>
             </tr>
           `}}))).join(``)}
         ${e.length===0?`<tr><td colspan="5">Table is empty</td></tr>`:``}
       </tbody>
-    `},getPage(){return Number(localStorage.getItem(v.localStoragePage)||1)||1},savePage(e){localStorage.setItem(v.localStoragePage,String(e))},fixPage(e,t,r){let i=n.getLastPage(r,t);e>i&&(v.savePage(i),v.render(i,t))},async componentDidMount(e,t,n){await _.render(e,t,n),v.fixPage(e,t,n)}},y={async render(e,t){let n=`#${b.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
+    `},getPage(){return Number(localStorage.getItem(v.localStoragePage)||1)||1},savePage(e){localStorage.setItem(v.localStoragePage,String(e))},fixPage(e,t,r,i){let a=n.getLastPage(r,t);e>a&&(v.savePage(a),v.render(a,t,i))},async componentDidMount(e,t,n,r){await _.render(e,t,n),v.fixPage(e,t,n,r),document.querySelector(`#winners_sort_id_asc_button`)?.addEventListener(`click`,()=>y.render(e,t,o.paginationTypeSort.idAsc)),document.querySelector(`#winners_sort_id_desc_button`)?.addEventListener(`click`,()=>y.render(e,t,o.paginationTypeSort.idDesc)),document.querySelector(`#winners_sort_wins_asc_button`)?.addEventListener(`click`,()=>y.render(e,t,o.paginationTypeSort.winsAsc)),document.querySelector(`#winners_sort_wins_desc_button`)?.addEventListener(`click`,()=>y.render(e,t,o.paginationTypeSort.winsDesc)),document.querySelector(`#winners_sort_time_asc_button`)?.addEventListener(`click`,()=>y.render(e,t,o.paginationTypeSort.timeAsc)),document.querySelector(`#winners_sort_time_desc_button`)?.addEventListener(`click`,()=>y.render(e,t,o.paginationTypeSort.timeDesc))}},y={async render(e,t,n=0){let r=`#${b.idContent}`,i=document.querySelector(r);if(!i){console.log(`Node is not found: ${r}`);return}try{i.innerHTML=`
         <div id="${v.idContent}"></div>
         <div id="${_.idContainer}"></div>
-      `,await v.render(e,t)}catch(e){r.innerHTML=`
+      `,await v.render(e,t,n)}catch(e){i.innerHTML=`
         <div>${e}</div>
       `}}},b={idRoot:`app`,idContent:`content`,async render(){let t=`#${b.idRoot}`,n=document.querySelector(t);if(!n){console.error(`Node is not found: ${t}`);return}try{n.innerHTML=`
         <div>
