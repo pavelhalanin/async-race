@@ -3,7 +3,7 @@ import { Winners } from '../../components/WinnersPage/Winners/Winners';
 import { WinnersPagination } from './WinnersPagination/WinnersPagination';
 
 export const WinnersPage = {
-  async render(selectedPage: number, limit: number): Promise<void> {
+  async render(selectedPage: number, limit: number, type: number = 0): Promise<void> {
     const NODE_ID = `#${App.idContent}`;
     const DIV = document.querySelector(NODE_ID);
     if (!DIV) {
@@ -16,7 +16,7 @@ export const WinnersPage = {
         <div id="${Winners.idContent}"></div>
         <div id="${WinnersPagination.idContainer}"></div>
       `;
-      await Winners.render(selectedPage, limit);
+      await Winners.render(selectedPage, limit, type);
     } catch (error) {
       DIV.innerHTML = `
         <div>${error}</div>
