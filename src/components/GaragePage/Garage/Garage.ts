@@ -61,37 +61,71 @@ export const Garage = {
   },
   async startCar(id: number): Promise<void> {
     try {
-      const ID = String(id);
-
-      const CAR_ICON_SELECTOR = `div[data-car-image="${CSS.escape(ID)}"] .car__wrapper`;
-      const CAR_ICON = document.querySelector(CAR_ICON_SELECTOR);
-      if (!CAR_ICON) {
-        throw new Error(`Node is not found ${CAR_ICON_SELECTOR}`);
-      }
-      CAR_ICON.classList.remove(`animate--${ID}`);
+      Garage.removeDtp(id);
+      Garage.removeAnimate(id);
 
       const DATA = await EngineApi.engineStart(id);
       const TIME = DATA.distance / 1000 / DATA.velocity;
 
-      const CSS_SELECTOR = `div[data-car-css="${CSS.escape(ID)}"]`;
-      const DIV_CSS = document.querySelector(CSS_SELECTOR);
-      if (!DIV_CSS) {
-        throw new Error(`Node is not found ${CSS_SELECTOR}`);
-      }
-      if (DIV_CSS instanceof HTMLElement) {
-        DIV_CSS.innerHTML = `
-            <style>
-            .garage_content__car_road .car__wrapper.animate--${ID} {
-              animation: moveRight ${TIME}s linear forwards;
-            }
-            </style>
-          `;
-      }
+      Garage.addAnimate(id, TIME);
 
-      CAR_ICON.classList.add(`animate--${ID}`);
+      try {
+        await EngineApi.engineDrive(id);
+      } catch (error) {
+        console.error(error);
+        Garage.addDtp(id);
+      }
     } catch (error) {
       alert(error);
     }
+  },
+  getCarElement(carId: number): Element {
+    const CAR_ICON_SELECTOR = `div[data-car-image="${carId}"] .car__wrapper`;
+    const CAR_ICON = document.querySelector(CAR_ICON_SELECTOR);
+    if (!CAR_ICON) {
+      throw new Error(`Node is not found ${CAR_ICON_SELECTOR}`);
+    }
+    if (!(CAR_ICON instanceof HTMLSpanElement)) {
+      throw new TypeError(`Node is not found ${CAR_ICON_SELECTOR}`);
+    }
+    return CAR_ICON;
+  },
+  removeDtp(carId: number): void {
+    const CAR_ICON = Garage.getCarElement(carId);
+    if (!(CAR_ICON instanceof HTMLSpanElement)) {
+      throw new TypeError(`Node is not found ${carId}`);
+    }
+    CAR_ICON.dataset.dtp = 'false';
+  },
+  addDtp(carId: number): void {
+    const CAR_ICON = Garage.getCarElement(carId);
+    if (!(CAR_ICON instanceof HTMLSpanElement)) {
+      throw new TypeError(`Node is not found ${carId}`);
+    }
+    CAR_ICON.dataset.dtp = 'true';
+  },
+  removeAnimate(carId: number): void {
+    const CAR_ICON = Garage.getCarElement(carId);
+    CAR_ICON.classList.remove(`animate--${carId}`);
+  },
+  addAnimate(carId: number, time: number): void {
+    const CSS_SELECTOR = `div[data-car-css="${CSS.escape(String(carId))}"]`;
+    const DIV_CSS = document.querySelector(CSS_SELECTOR);
+    if (!DIV_CSS) {
+      throw new Error(`Node is not found ${CSS_SELECTOR}`);
+    }
+    if (DIV_CSS instanceof HTMLElement) {
+      DIV_CSS.innerHTML = `
+            <style>
+            .garage_content__car_road .car__wrapper.animate--${carId} {
+              animation: moveRight ${time}s linear forwards;
+            }
+            </style>
+          `;
+    }
+
+    const CAR_ICON = Garage.getCarElement(carId);
+    CAR_ICON.classList.add(`animate--${carId}`);
   },
   getPage(): number {
     return Number(localStorage.getItem(Garage.localStoragePage) || 1) || 1;

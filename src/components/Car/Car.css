@@ -2,3 +2,22 @@
   width: 32px;
   height: 32px;
 }
+
+.car__wrapper {
+  position: relative;
+}
+
+.car__wrapper .car__dtp_warning {
+  position: absolute;
+  right: 38px;
+  top: 0;
+
+  display: none;
+  color: var(--warning-background-color);
+  width: 32px;
+  height: 32px;
+}
+
+.car__wrapper[data-dtp='true'] .car__dtp_warning {
+  display: block;
+}
