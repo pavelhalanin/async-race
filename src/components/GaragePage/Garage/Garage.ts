@@ -2,6 +2,7 @@ import { EngineApi } from '../../../api/engine/EngineApi';
 import GarageApi from '../../../api/garage/GarageApi';
 import { WinnersApi } from '../../../api/winners/WinnersApi';
 import type { IGarage } from '../../../types/garage.dto';
+import type { IStartRaceInfo } from '../../../types/startRaceInfo.dto';
 import { Pagination } from '../../../utils/Pagination';
 import { Car } from '../../Car/Car';
 import { CreateCardForm } from '../CreateCarForm/CreateCarForm';
@@ -64,7 +65,7 @@ export const Garage = {
         ?.addEventListener('click', async () => await Garage.stopEngine(CAR.id));
     }
   },
-  async startCar(id: number): Promise<void> {
+  async startCar(id: number): Promise<number> {
     try {
       Garage.removeDtp(id);
       Garage.removeAnimate(id);
@@ -79,18 +80,20 @@ export const Garage = {
       } catch (error) {
         console.info('Car not finished - car is crushed', error);
         Garage.addDtp(id);
-        return;
+        return 9_999_999;
       }
 
       try {
         const WINNER = await WinnersApi.getById(id);
+        const MIN_TIME = Math.min(WINNER.time, TIME);
         await WinnersApi.update(
           {
             wins: WINNER.wins + 1,
-            time: Math.min(WINNER.time, TIME),
+            time: MIN_TIME,
           },
           id
         );
+        return MIN_TIME;
       } catch (error) {
         console.info('Car not found for update', error);
         await WinnersApi.create({
@@ -98,9 +101,11 @@ export const Garage = {
           time: TIME,
           wins: 1,
         });
+        return TIME;
       }
     } catch (error) {
       console.info('Error start car', error);
+      return 9_999_999;
     }
   },
   getLeftProcent(carId: number): number {
@@ -201,6 +206,69 @@ export const Garage = {
     BUTTON.innerHTML = 'Reset race';
     BUTTON.removeAttribute('disabled');
   },
+  async startRace(page: number, limit: number): Promise<void> {
+    const BUTTON_SELECTOR = `#start_race`;
+    const BUTTON = document.querySelector(BUTTON_SELECTOR);
+    if (!BUTTON) {
+      console.info(`Node is not found: ${BUTTON_SELECTOR}`);
+      return;
+    }
+
+    BUTTON.setAttribute('disabled', 'true');
+    BUTTON.innerHTML = 'Start race (loading...)';
+
+    const { CARS } = await GarageApi.getPagination(page, limit);
+
+    const ARRAY: Array<IStartRaceInfo> = [];
+
+    const PROMISES = CARS.map(async CAR => {
+      const CAR_ID = CAR.id;
+      const TIME = await Garage.startCar(CAR_ID);
+      return {
+        carId: CAR_ID,
+        time: TIME,
+      };
+    });
+
+    const RESULTS = await Promise.all(PROMISES);
+    ARRAY.push(...RESULTS);
+
+    let minTime = 9_999_999;
+    for (const element of ARRAY) {
+      if (element.time < minTime) {
+        minTime = element.time;
+      }
+    }
+
+    Garage._start_race__alert(minTime, CARS, ARRAY);
+
+    BUTTON.innerHTML = 'Start race';
+    BUTTON.removeAttribute('disabled');
+  },
+  _start_race__alert(minTime: number, CARS: Array<IGarage>, ARRAY: Array<IStartRaceInfo>): void {
+    if (minTime == 9_999_999) {
+      alert('nothing not win race because cars crush');
+    }
+
+    if (minTime !== 9_999_999) {
+      const WINNERS: Array<IGarage> = [];
+      for (const element of ARRAY) {
+        if (element.time == minTime) {
+          for (const CAR of CARS) {
+            if (CAR.id === element.carId) {
+              WINNERS.push(CAR);
+            }
+          }
+        }
+      }
+
+      alert(
+        `First car finished on time ${minTime}s: ${WINNERS.map(car => {
+          return `\n${minTime}s - ${car.id} - ${car.name} (color ${car.color})`;
+        })}`
+      );
+    }
+  },
   async stopEngine(carId: number): Promise<void> {
     await EngineApi.engineStopped(carId);
     Garage.removeDtp(carId);
@@ -239,6 +307,10 @@ export const Garage = {
     document
       .querySelector(`#reset_race`)
       ?.addEventListener('click', async () => await Garage.resetRace(page, limit));
+
+    document
+      .querySelector(`#start_race`)
+      ?.addEventListener('click', async () => await Garage.startRace(page, limit));
 
     await GaragePagination.render(page, limit, totalCount);
 
