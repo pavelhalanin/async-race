@@ -18,7 +18,7 @@ export const Garage = {
     const NODE_ID = `#${Garage.idGarageContent}`;
     const DIV = document.querySelector(NODE_ID);
     if (!DIV) {
-      console.error(`Node is not found: ${NODE_ID}`);
+      console.info(`Node is not found: ${NODE_ID}`);
       return;
     }
     DIV.innerHTML = 'Loading...';
@@ -77,7 +77,7 @@ export const Garage = {
       try {
         await EngineApi.engineDrive(id);
       } catch (error) {
-        console.error(error);
+        console.info('Car not finished - car is crushed', error);
         Garage.addDtp(id);
         return;
       }
@@ -92,7 +92,7 @@ export const Garage = {
           id
         );
       } catch (error) {
-        console.error(error);
+        console.info('Car not found for update', error);
         await WinnersApi.create({
           id: id,
           time: TIME,
@@ -100,7 +100,7 @@ export const Garage = {
         });
       }
     } catch (error) {
-      console.error(error);
+      console.info('Error start car', error);
     }
   },
   getLeftProcent(carId: number): number {
@@ -179,7 +179,7 @@ export const Garage = {
     const BUTTON_SELECTOR = `#reset_race`;
     const BUTTON = document.querySelector(BUTTON_SELECTOR);
     if (!BUTTON) {
-      console.error(`Node is not found: ${BUTTON_SELECTOR}`);
+      console.info(`Node is not found: ${BUTTON_SELECTOR}`);
       return;
     }
 
@@ -194,7 +194,7 @@ export const Garage = {
         Garage.removeDtp(CAR_ID);
         Garage.removeAnimate(CAR_ID);
       } catch (error) {
-        console.error(error);
+        console.info('Error stop engine', error);
       }
     }
 

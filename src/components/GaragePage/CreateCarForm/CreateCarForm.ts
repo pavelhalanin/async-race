@@ -47,14 +47,14 @@ export const CreateCardForm = {
   init(): void {
     const FORM = document.querySelector(`#${CreateCardForm.idForm}`);
     if (!FORM) {
-      console.error(`Node not found: #${CreateCardForm.idForm}`);
+      console.info(`Node not found: #${CreateCardForm.idForm}`);
       return;
     }
     FORM.addEventListener('submit', CreateCardForm.onSubmit);
 
     const NAME_INPUT = document.querySelector(`#${CreateCardForm.idNameInput}`);
     if (!NAME_INPUT) {
-      console.error(`Node not found: #${CreateCardForm.idNameInput}`);
+      console.info(`Node not found: #${CreateCardForm.idNameInput}`);
       return;
     }
     NAME_INPUT.addEventListener('input', function (this: HTMLInputElement) {
@@ -63,7 +63,7 @@ export const CreateCardForm = {
 
     const COLOR_INPUT = document.querySelector(`#${CreateCardForm.idColorInput}`);
     if (!COLOR_INPUT) {
-      console.error(`Node not found: #${CreateCardForm.idColorInput}`);
+      console.info(`Node not found: #${CreateCardForm.idColorInput}`);
       return;
     }
     COLOR_INPUT.addEventListener('input', function (this: HTMLInputElement) {
@@ -116,7 +116,7 @@ export const CreateCardForm = {
           object.color = DATA.color;
         }
       } catch (error) {
-        console.error(error);
+        console.info('State manager error', error);
       }
     }
 

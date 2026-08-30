@@ -8,7 +8,7 @@ export const WinnersPagination = {
     const NODE_ID = `#${WinnersPagination.idContainer}`;
     const DIV = document.querySelector(NODE_ID);
     if (!DIV) {
-      console.error(`Node is not found: ${NODE_ID}`);
+      console.info(`Node is not found: ${NODE_ID}`);
       return;
     }
 

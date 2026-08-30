@@ -51,14 +51,14 @@ export const UpdateCardForm = {
   init(): void {
     const FORM = document.querySelector(`#${UpdateCardForm.idForm}`);
     if (!FORM) {
-      console.error(`Node not found: #${UpdateCardForm.idForm}`);
+      console.info(`Node not found: #${UpdateCardForm.idForm}`);
       return;
     }
     FORM.addEventListener('submit', UpdateCardForm.onSubmit);
 
     const NAME_INPUT = document.querySelector(`#${UpdateCardForm.idNameInput}`);
     if (!NAME_INPUT) {
-      console.error(`Node not found: #${UpdateCardForm.idNameInput}`);
+      console.info(`Node not found: #${UpdateCardForm.idNameInput}`);
       return;
     }
     NAME_INPUT.addEventListener('input', function (this: HTMLInputElement) {
@@ -67,7 +67,7 @@ export const UpdateCardForm = {
 
     const COLOR_INPUT = document.querySelector(`#${UpdateCardForm.idColorInput}`);
     if (!COLOR_INPUT) {
-      console.error(`Node not found: #${UpdateCardForm.idColorInput}`);
+      console.info(`Node not found: #${UpdateCardForm.idColorInput}`);
       return;
     }
     COLOR_INPUT.addEventListener('input', function (this: HTMLInputElement) {
@@ -130,7 +130,7 @@ export const UpdateCardForm = {
           object.color = DATA.color;
         }
       } catch (error) {
-        console.error(error);
+        console.info(error);
       }
     }
 
