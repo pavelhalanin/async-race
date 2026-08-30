@@ -33,8 +33,16 @@ export const RemoveCarButton = {
 
     const CAR_ID = Number(BUTTON.dataset.carId) || 0;
     console.log(`Remove car with ID: ${CAR_ID}`);
-    await GarageApi.remove(CAR_ID);
-    await WinnersApi.remove(CAR_ID);
+    try {
+      await GarageApi.remove(CAR_ID);
+    } catch (error) {
+      console.info(error);
+    }
+    try {
+      await WinnersApi.remove(CAR_ID);
+    } catch (error) {
+      console.info(error);
+    }
     await GaragePage.render(Garage.getPage(), ENV.limitCars);
   },
 };
