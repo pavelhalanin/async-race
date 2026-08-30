@@ -35,7 +35,8 @@ export const Garage = {
             ${RemoveCarButton.render(car.id)}
             ${car.id} ${car.name}
           </div>
-          <button class="btn btn-sm btn-primary" data-button-car-start="${car.id}">A</button>
+          <button class="btn btn-sm btn-success" data-button-car-start="${car.id}">A</button>
+          <button class="btn btn-sm btn-danger" data-button-car-stop="${car.id}">B</button>
           <div class="garage_content__car_road" data-car-image="${car.id}">
             ${Car.render(car.color)}
           </div>
@@ -58,6 +59,9 @@ export const Garage = {
       document
         .querySelector(`button[data-button-car-start="${CSS.escape(ID)}"]`)
         ?.addEventListener('click', async () => await Garage.startCar(CAR.id));
+      document
+        .querySelector(`button[data-button-car-stop="${CSS.escape(ID)}"]`)
+        ?.addEventListener('click', async () => await Garage.stopEngine(CAR.id));
     }
   },
   async startCar(id: number): Promise<void> {
@@ -196,6 +200,11 @@ export const Garage = {
 
     BUTTON.innerHTML = 'Reset race';
     BUTTON.removeAttribute('disabled');
+  },
+  async stopEngine(carId: number): Promise<void> {
+    await EngineApi.engineStopped(carId);
+    Garage.removeDtp(carId);
+    Garage.removeAnimate(carId);
   },
   getPage(): number {
     return Number(localStorage.getItem(Garage.localStoragePage) || 1) || 1;
