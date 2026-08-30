@@ -16,3 +16,12 @@
   bottom: 0;
   font-size: 10px;
 }
+
+.winners__table_container {
+  border: 2px solid var(--primary-background-color);
+  margin: 4px 0;
+  padding: 4px;
+  border-radius: 4px;
+  height: 500px;
+  overflow-y: scroll;
+}
