@@ -22,9 +22,11 @@
   0%,
   100% {
     opacity: 1;
+    color: var(--danger-background-color);
   }
   50% {
-    opacity: 0.1;
+    opacity: 0.3;
+    color: var(--danger-background-color);
   }
 }
 
