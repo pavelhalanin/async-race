@@ -18,13 +18,14 @@ export const GaragePagination = {
     let html = `
       <button class="btn btn-primary" id="pagination_prev_button" ${currentPage <= 1 ? 'disabled' : ''}>Prev</button>
       <button class="btn btn-primary" id="pagination_next_button" ${currentPage >= LAST_PAGE ? 'disabled' : ''}>Next</button>
+      Page:
       <select id="pagination_select" class="btn" style="border-color: var(--primary-border-color);">
         ${Array.from({ length: LAST_PAGE }, (_, index) => {
           const PAGE = index + 1;
           return `<option value="${PAGE}" ${PAGE === currentPage ? 'selected' : ''}>${PAGE}</option>`;
         }).join('')}
       </select>
-      <span>Limit: ${limit}</span>
+      Limit: ${limit}
     `;
 
     DIV.innerHTML = html;
