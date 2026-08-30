@@ -1,7 +1,5 @@
-import { ENV } from '../../../enviroment';
 import { GaragePage } from '../GaragePage';
 import { Pagination } from '../../../utils/Pagination';
-import './GaragePagination.css';
 
 export const GaragePagination = {
   idPaginationContainer: 'garage_pagination',
@@ -19,36 +17,38 @@ export const GaragePagination = {
 
     let html = `
       <button class="btn btn-primary" id="pagination_prev_button" ${currentPage <= 1 ? 'disabled' : ''}>Prev</button>
-      <select id="pagination_select" class="btn">
+      <button class="btn btn-primary" id="pagination_next_button" ${currentPage >= LAST_PAGE ? 'disabled' : ''}>Next</button>
+      <select id="pagination_select" class="btn" style="border-color: var(--primary-border-color);">
         ${Array.from({ length: LAST_PAGE }, (_, index) => {
           const PAGE = index + 1;
           return `<option value="${PAGE}" ${PAGE === currentPage ? 'selected' : ''}>${PAGE}</option>`;
         }).join('')}
       </select>
-      <button class="btn btn-primary" id="pagination_next_button" ${currentPage >= LAST_PAGE ? 'disabled' : ''}>Next</button>
+      <span>Limit: ${limit}</span>
     `;
 
     DIV.innerHTML = html;
 
+    GaragePagination.addListenerPrevButton(currentPage, limit);
+    GaragePagination.addListenerNextButton(currentPage, limit);
+    GaragePagination.addListenerSelect(limit);
+  },
+  addListenerPrevButton(currentPage: number, limit: number): void {
     document
       .querySelector('#pagination_prev_button')
-      ?.addEventListener(
-        'click',
-        async () => await GaragePage.render(currentPage - 1, ENV.limitCars)
-      );
-
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage - 1, limit));
+  },
+  addListenerNextButton(currentPage: number, limit: number): void {
     document
       .querySelector('#pagination_next_button')
-      ?.addEventListener(
-        'click',
-        async () => await GaragePage.render(currentPage + 1, ENV.limitCars)
-      );
-
+      ?.addEventListener('click', async () => await GaragePage.render(currentPage + 1, limit));
+  },
+  addListenerSelect(limit: number): void {
     document.querySelector('#pagination_select')?.addEventListener('change', async event => {
       const TARGET = event.target;
       if (TARGET instanceof HTMLSelectElement) {
         const selectedPage = parseInt(TARGET.value);
-        await GaragePage.render(selectedPage, ENV.limitCars);
+        await GaragePage.render(selectedPage, limit);
       }
     });
   },
