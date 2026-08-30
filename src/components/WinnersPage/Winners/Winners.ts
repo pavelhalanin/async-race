@@ -119,6 +119,10 @@ export const Winners = {
       Winners.savePage(LAST_PAGE);
       Winners.render(LAST_PAGE, limit, type);
     }
+    if (page < 0) {
+      Winners.savePage(1);
+      Winners.render(1, limit, type);
+    }
   },
   async componentDidMount(
     page: number,

@@ -14,6 +14,10 @@ export const WinnersPagination = {
     DIV.innerHTML = 'Loading...';
 
     const LAST_PAGE = Pagination.getLastPage(totalCount, limit);
+    if (LAST_PAGE === 0) {
+      DIV.replaceChildren('');
+      return;
+    }
 
     let html = `
       <button class="btn btn-primary" id="pagination_prev_button" ${currentPage <= 1 ? 'disabled' : ''}>Prev</button>
