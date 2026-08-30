@@ -10,6 +10,7 @@ import { GaragePagination } from '../GaragePagination/GaragePagination';
 import { RemoveCarButton } from '../RemoveCarButton/RemoveCarButton';
 import { SelectCarButton } from '../SelectCarButton/SelectCarButton';
 import { UpdateCardForm } from '../UpdateCarForm/UpdateCarForm';
+import { CarFinishFlag } from './CarFinishFlag/CarFinishFlag';
 import './Garage.css';
 
 export const Garage = {
@@ -40,6 +41,7 @@ export const Garage = {
           <button class="btn btn-sm btn-danger" data-button-car-stop="${car.id}">B</button>
           <div class="garage_content__car_road" data-car-image="${car.id}">
             ${Car.render(car.color)}
+            ${CarFinishFlag.render(car.id)}
           </div>
           <div data-car-css="${car.id}"></div>
         `;
@@ -65,10 +67,20 @@ export const Garage = {
         ?.addEventListener('click', async () => await Garage.stopEngine(CAR.id));
     }
   },
+  _startCar_before(id: number): void {
+    Garage.removeDtp(id);
+    Garage.removeAnimate(id);
+    CarFinishFlag.removeFinishAnimation(id);
+    Garage.disableA(id);
+    Garage.disableB(id);
+  },
+  _startCar_after(id: number): void {
+    Garage.enableA(id);
+    Garage.enableB(id);
+  },
   async startCar(id: number): Promise<number> {
     try {
-      Garage.removeDtp(id);
-      Garage.removeAnimate(id);
+      Garage._startCar_before(id);
 
       const DATA = await EngineApi.engineStart(id);
       const TIME = DATA.distance / 1000 / DATA.velocity;
@@ -79,9 +91,11 @@ export const Garage = {
         await EngineApi.engineDrive(id);
       } catch (error) {
         console.info('Car not finished - car is crushed', error);
+        CarFinishFlag.addFinishCrushAnimation(id);
         Garage.addDtp(id);
         return 9_999_999;
       }
+      CarFinishFlag.addFinishSuccessAnimation(id);
 
       try {
         const WINNER = await WinnersApi.getById(id);
@@ -96,16 +110,14 @@ export const Garage = {
         return MIN_TIME;
       } catch (error) {
         console.info('Car not found for update', error);
-        await WinnersApi.create({
-          id: id,
-          time: TIME,
-          wins: 1,
-        });
+        await WinnersApi.create({ id: id, time: TIME, wins: 1 });
         return TIME;
       }
     } catch (error) {
       console.info('Error start car', error);
       return 9_999_999;
+    } finally {
+      Garage._startCar_after(id);
     }
   },
   getLeftProcent(carId: number): number {
@@ -203,6 +215,7 @@ export const Garage = {
         await EngineApi.engineStopped(CAR_ID);
         Garage.removeDtp(CAR_ID);
         Garage.removeAnimate(CAR_ID);
+        CarFinishFlag.removeFinishAnimation(CAR_ID);
       } catch (error) {
         console.info('Error stop engine', error);
       }
@@ -289,9 +302,14 @@ export const Garage = {
     }
   },
   async stopEngine(carId: number): Promise<void> {
+    Garage.disableA(carId);
+    Garage.disableB(carId);
     await EngineApi.engineStopped(carId);
     Garage.removeDtp(carId);
     Garage.removeAnimate(carId);
+    CarFinishFlag.removeFinishAnimation(carId);
+    Garage.enableA(carId);
+    Garage.enableB(carId);
   },
   getA(carId: number): HTMLButtonElement {
     const ID = String(carId);

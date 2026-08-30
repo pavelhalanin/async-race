@@ -1,0 +1,54 @@
+span[data-finish-for-car-id] {
+  position: absolute;
+  top: 0;
+  right: 48px;
+
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+span[data-finish-for-car-id] svg {
+  width: 32px !important;
+  height: 32px;
+}
+
+.car__finish-flag--crush,
+.car__finish-flag--success {
+  animation: rotate_flag 5s ease-in-out infinite;
+}
+
+.car__finish-flag--crush svg {
+  fill: var(--danger-background-color);
+}
+
+.car__finish-flag--success svg {
+  fill: var(--success-background-color);
+}
+
+@keyframes rotate_flag {
+  0% {
+    transform: rotateY(0deg);
+    transform-origin: left center;
+  }
+
+  25% {
+    transform: rotateY(-50deg);
+    transform-origin: left center;
+  }
+
+  50% {
+    transform: rotateY(0deg);
+    transform-origin: left center;
+  }
+
+  75% {
+    transform: rotateY(65deg);
+    transform-origin: left center;
+  }
+
+  100% {
+    transform: rotateY(0deg);
+    transform-origin: left center;
+  }
+}
