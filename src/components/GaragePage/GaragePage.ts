@@ -18,19 +18,9 @@ export const GaragePage = {
         ${CreateCardForm.render()}
         ${UpdateCardForm.render()}
         <div>
-          <button
-            class="btn btn-sm btn-danger"
-            id="reset_race"
-          >
-            Reset race
-          </button>
-          <button
-            class="btn btn-sm btn-primary"
-            id="generate_cars"
-            title="Generate random 100 cars"
-          >
-            Generate cars
-          </button>
+          ${GaragePage.getHtmlStartRaceButton()}
+          ${GaragePage.getHtmlResetRaceButton()}
+          ${GaragePage.getHtmlGenerateRandom100CarsButton()}
         </div>
         <div id="${Garage.idGarageContent}"></div>
         <div id="${GaragePagination.idPaginationContainer}"></div>
@@ -41,5 +31,36 @@ export const GaragePage = {
         <div>${error}</div>
       `;
     }
+  },
+  getHtmlStartRaceButton(): string {
+    return `
+      <button
+        class="btn btn-sm btn-success"
+        id="start_race"
+      >
+        Start race
+      </button>
+    `;
+  },
+  getHtmlResetRaceButton(): string {
+    return `
+      <button
+        class="btn btn-sm btn-danger"
+        id="reset_race"
+      >
+        Reset race
+      </button>
+    `;
+  },
+  getHtmlGenerateRandom100CarsButton(): string {
+    return `
+      <button
+        class="btn btn-sm btn-primary"
+        id="generate_cars"
+        title="Generate random 100 cars"
+      >
+        Generate cars
+      </button>
+    `;
   },
 };
