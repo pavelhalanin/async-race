@@ -352,7 +352,7 @@ export const Garage = {
       Garage.savePage(LAST_PAGE);
       Garage.render(LAST_PAGE, limit);
     }
-    if (page <= 0) {
+    if (page < 0) {
       Garage.savePage(1);
       Garage.render(1, limit);
     }
