@@ -71,19 +71,21 @@
       <div>Garage (${a})</div> <div>Page #${e}</div>
       <div class="${p.idGarageContent}__cars scroll">
         ${i.map(e=>`
-          <div>
-            ${u.render(e.id)}
-            ${c.render(e.id)}
-            ${e.id} ${e.name}
-          </div>
-          <button class="btn btn-sm btn-success" data-button-car-start="${e.id}">A</button>
-          <button class="btn btn-sm btn-danger" data-button-car-stop="${e.id}">B</button>
-          <div class="garage_content__car_road" data-car-image="${e.id}">
-            ${o.render(e.color)}
-            ${f.render(e.id)}
-          </div>
-          <div data-car-css="${e.id}"></div>
-        `).join(``)}
+            <div class="car__element">
+              <div>
+                ${u.render(e.id)}
+                ${c.render(e.id)}
+                ${e.id} ${e.name}
+              </div>
+              <button class="btn btn-sm btn-success" data-button-car-start="${e.id}">A</button>
+              <button class="btn btn-sm btn-danger" data-button-car-stop="${e.id}">B</button>
+              <div class="garage_content__car_road" data-car-image="${e.id}">
+                ${o.render(e.color)}
+                ${f.render(e.id)}
+              </div>
+              <div data-car-css="${e.id}"></div>
+            </div>
+          `).join(``)}
       </div>
     `,i.length===0&&(r.innerHTML=`No cars`),await p.componentDidMount(i,e,t,a),p.addEventForCars(i)},addEventForCars(e){for(let t of e){let e=String(t.id);document.querySelector(`button[data-button-car-start="${CSS.escape(e)}"]`)?.addEventListener(`click`,async()=>await p.startCar(t.id)),document.querySelector(`button[data-button-car-stop="${CSS.escape(e)}"]`)?.addEventListener(`click`,async()=>await p.stopEngine(t.id))}},_startCar_before(e){p.removeDtp(e),p.removeAnimate(e),f.removeFinishAnimation(e),p.disableA(e),p.disableB(e)},_startCar_after(e){p.enableA(e),p.enableB(e)},async startCar(e){try{p._startCar_before(e);let r=await t.engineStart(e),i=r.distance/1e3/r.velocity;p.addAnimate(e,i);try{await t.engineDrive(e)}catch(t){return console.info(`Car not finished - car is crushed`,t),f.addFinishCrushAnimation(e),p.addDtp(e),9999999}f.addFinishSuccessAnimation(e);try{let t=await n.getById(e),r=Math.min(t.time,i);return await n.update({wins:t.wins+1,time:r},e),r}catch(t){return console.info(`Car not found for update`,t),await n.create({id:e,time:i,wins:1}),i}}catch(e){return console.info(`Error start car`,e),9999999}finally{p._startCar_after(e)}},getLeftProcent(e){let t=p.getRoadElement(e),n=p.getCarElement(e),r=globalThis.getComputedStyle(t).width,i=globalThis.getComputedStyle(n).left,a=Number(r.replace(`px`,``)),o=Number(i.replace(`px`,``))*100/a;return console.log(`Crush for cardId='${e} on ${o}%'`),n.style.left=`${o}%`,o},getRoadElement(e){let t=`div[data-car-image="${e}"]`,n=document.querySelector(t);if(!n)throw Error(`Node is not found ${t}`);if(!(n instanceof HTMLElement))throw TypeError(`Node is not found ${t}`);return n},getCarElement(e){let t=`div[data-car-image="${e}"] .car__wrapper`,n=document.querySelector(t);if(!n)throw Error(`Node is not found ${t}`);if(!(n instanceof HTMLElement))throw TypeError(`Node is not found ${t}`);return n},removeDtp(e){let t=p.getCarElement(e);t.dataset.dtp=`false`,t.style.left=``},addDtp(e){let t=p.getCarElement(e);t.dataset.dtp=`true`;let n=p.getLeftProcent(e);t.setAttribute(`title`,`Crush on ${n}%`.replaceAll(`"`,`'`)),p.removeAnimate(e)},removeAnimate(e){p.getCarElement(e).classList.remove(`animate--${e}`)},addAnimate(e,t){let n=`div[data-car-css="${CSS.escape(String(e))}"]`,r=document.querySelector(n);if(!r)throw Error(`Node is not found ${n}`);r instanceof HTMLElement&&(r.innerHTML=`
             <style>
