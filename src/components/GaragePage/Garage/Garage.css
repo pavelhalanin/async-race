@@ -17,7 +17,6 @@
   position: relative;
 
   height: 32px;
-  margin-bottom: 8px;
 }
 
 .garage_content__car_road .car__wrapper {
@@ -32,4 +31,11 @@
   100% {
     left: calc(100% - 48px);
   }
+}
+
+.car__element {
+  border: 2px solid var(--primary-border-color);
+  margin: 4px;
+  padding: 6px;
+  border-radius: 4px;
 }

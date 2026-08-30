@@ -32,19 +32,21 @@ export const Garage = {
       <div class="${Garage.idGarageContent}__cars scroll">
         ${CARS.map(car => {
           return `
-          <div>
-            ${SelectCarButton.render(car.id)}
-            ${RemoveCarButton.render(car.id)}
-            ${car.id} ${car.name}
-          </div>
-          <button class="btn btn-sm btn-success" data-button-car-start="${car.id}">A</button>
-          <button class="btn btn-sm btn-danger" data-button-car-stop="${car.id}">B</button>
-          <div class="garage_content__car_road" data-car-image="${car.id}">
-            ${Car.render(car.color)}
-            ${CarFinishFlag.render(car.id)}
-          </div>
-          <div data-car-css="${car.id}"></div>
-        `;
+            <div class="car__element">
+              <div>
+                ${SelectCarButton.render(car.id)}
+                ${RemoveCarButton.render(car.id)}
+                ${car.id} ${car.name}
+              </div>
+              <button class="btn btn-sm btn-success" data-button-car-start="${car.id}">A</button>
+              <button class="btn btn-sm btn-danger" data-button-car-stop="${car.id}">B</button>
+              <div class="garage_content__car_road" data-car-image="${car.id}">
+                ${Car.render(car.color)}
+                ${CarFinishFlag.render(car.id)}
+              </div>
+              <div data-car-css="${car.id}"></div>
+            </div>
+          `;
         }).join('')}
       </div>
     `;
