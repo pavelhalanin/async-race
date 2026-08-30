@@ -21,34 +21,45 @@ export const Winners = {
     const { WINNERS, TOTAL_COUNT } = await WinnersApi.getPagination(page, limit, type);
     Winners.savePage(page);
 
-    DIV.innerHTML = `
-      <div>Winners (${TOTAL_COUNT})</div> <div>Page #${page}</div>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th width="120" class="winners__th">
-              Number
-              ${Winners.getSortButton(0, type, WinnersApi.paginationTypeSort.idDesc, 'winners_sort_id_desc_button')}
-              ${Winners.getSortButton(1, type, WinnersApi.paginationTypeSort.idAsc, 'winners_sort_id_asc_button')}
-            </th>
-            <th width="70">Car</th>
-            <th>Name</th>
-            <th width="100" class="winners__th">
-              Wins
-              ${Winners.getSortButton(0, type, WinnersApi.paginationTypeSort.winsDesc, 'winners_sort_wins_desc_button')}
-              ${Winners.getSortButton(1, type, WinnersApi.paginationTypeSort.winsAsc, 'winners_sort_wins_asc_button')}
-            </th>
-            <th width="200" class="winners__th">
-              Best time (seconds)
-              ${Winners.getSortButton(0, type, WinnersApi.paginationTypeSort.timeDesc, 'winners_sort_time_desc_button')}
-              ${Winners.getSortButton(1, type, WinnersApi.paginationTypeSort.timeAsc, 'winners_sort_time_asc_button')}
-            </th>
-          </tr>
-        </thead>
-        ${await Winners.renderTbody(WINNERS)}
-      </table>
-    `;
+    DIV.innerHTML = await Winners._render_getHtml(TOTAL_COUNT, WINNERS, page, type);
     await Winners.componentDidMount(page, limit, TOTAL_COUNT, type);
+  },
+  async _render_getHtml(
+    TOTAL_COUNT: number,
+    WINNERS: Array<IWinner>,
+    page: number,
+    type: number
+  ): Promise<string> {
+    return `
+      <div class="winners__table_container scroll">
+        <div>Winners (${TOTAL_COUNT})</div>
+        <div>Page #${page}</div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th width="120" class="winners__th">
+                Number
+                ${Winners.getSortButton(0, type, WinnersApi.paginationTypeSort.idDesc, 'winners_sort_id_desc_button')}
+                ${Winners.getSortButton(1, type, WinnersApi.paginationTypeSort.idAsc, 'winners_sort_id_asc_button')}
+              </th>
+              <th width="70">Car</th>
+              <th>Name</th>
+              <th width="100" class="winners__th">
+                Wins
+                ${Winners.getSortButton(0, type, WinnersApi.paginationTypeSort.winsDesc, 'winners_sort_wins_desc_button')}
+                ${Winners.getSortButton(1, type, WinnersApi.paginationTypeSort.winsAsc, 'winners_sort_wins_asc_button')}
+              </th>
+              <th width="200" class="winners__th">
+                Best time (seconds)
+                ${Winners.getSortButton(0, type, WinnersApi.paginationTypeSort.timeDesc, 'winners_sort_time_desc_button')}
+                ${Winners.getSortButton(1, type, WinnersApi.paginationTypeSort.timeAsc, 'winners_sort_time_asc_button')}
+              </th>
+            </tr>
+          </thead>
+          ${await Winners.renderTbody(WINNERS)}
+        </table>
+      </div>
+    `;
   },
   getSortButton(topType: number, type1: number, type2: number, id: string): string {
     return `
