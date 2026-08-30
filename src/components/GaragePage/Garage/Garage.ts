@@ -192,6 +192,11 @@ export const Garage = {
     BUTTON.innerHTML = 'Reset race (loading...)';
 
     const { CARS } = await GarageApi.getPagination(page, limit);
+    for (const CAR of CARS) {
+      Garage.disableA(CAR.id);
+      Garage.disableB(CAR.id);
+    }
+
     for (let index = 0; index <= CARS.length; index++) {
       try {
         const CAR_ID = CARS[index].id;
@@ -201,6 +206,11 @@ export const Garage = {
       } catch (error) {
         console.info('Error stop engine', error);
       }
+    }
+
+    for (const CAR of CARS) {
+      Garage.enableA(CAR.id);
+      Garage.enableB(CAR.id);
     }
 
     BUTTON.innerHTML = 'Reset race';
@@ -218,6 +228,10 @@ export const Garage = {
     BUTTON.innerHTML = 'Start race (loading...)';
 
     const { CARS } = await GarageApi.getPagination(page, limit);
+    for (const CAR of CARS) {
+      Garage.disableA(CAR.id);
+      Garage.disableB(CAR.id);
+    }
 
     const ARRAY: Array<IStartRaceInfo> = [];
 
@@ -241,6 +255,11 @@ export const Garage = {
     }
 
     Garage._start_race__alert(minTime, CARS, ARRAY);
+
+    for (const CAR of CARS) {
+      Garage.enableA(CAR.id);
+      Garage.enableB(CAR.id);
+    }
 
     BUTTON.innerHTML = 'Start race';
     BUTTON.removeAttribute('disabled');
@@ -273,6 +292,46 @@ export const Garage = {
     await EngineApi.engineStopped(carId);
     Garage.removeDtp(carId);
     Garage.removeAnimate(carId);
+  },
+  getA(carId: number): HTMLButtonElement {
+    const ID = String(carId);
+    const SELECTOR = `button[data-button-car-start="${CSS.escape(ID)}"]`;
+    const BUTTON = document.querySelector(SELECTOR);
+    if (!BUTTON) {
+      throw new Error(`Node is not found: ${SELECTOR}`);
+    }
+    if (!(BUTTON instanceof HTMLButtonElement)) {
+      throw new TypeError(`Node is not found ${SELECTOR}`);
+    }
+    return BUTTON;
+  },
+  disableA(carId: number): void {
+    const BUTTON = Garage.getA(carId);
+    BUTTON.setAttribute('disabled', 'true');
+  },
+  enableA(carId: number): void {
+    const BUTTON = Garage.getA(carId);
+    BUTTON.removeAttribute('disabled');
+  },
+  getB(carId: number): HTMLButtonElement {
+    const ID = String(carId);
+    const SELECTOR = `button[data-button-car-stop="${CSS.escape(ID)}"]`;
+    const BUTTON = document.querySelector(SELECTOR);
+    if (!BUTTON) {
+      throw new Error(`Node is not found: ${SELECTOR}`);
+    }
+    if (!(BUTTON instanceof HTMLButtonElement)) {
+      throw new TypeError(`Node is not found ${SELECTOR}`);
+    }
+    return BUTTON;
+  },
+  disableB(carId: number): void {
+    const BUTTON = Garage.getB(carId);
+    BUTTON.setAttribute('disabled', 'true');
+  },
+  enableB(carId: number): void {
+    const BUTTON = Garage.getB(carId);
+    BUTTON.removeAttribute('disabled');
   },
   getPage(): number {
     return Number(localStorage.getItem(Garage.localStoragePage) || 1) || 1;
