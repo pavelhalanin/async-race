@@ -19,6 +19,12 @@ export const GaragePage = {
         ${UpdateCardForm.render()}
         <div>
           <button
+            class="btn btn-sm btn-danger"
+            id="reset_race"
+          >
+            Reset race
+          </button>
+          <button
             class="btn btn-sm btn-primary"
             id="generate_cars"
             title="Generate random 100 cars"
