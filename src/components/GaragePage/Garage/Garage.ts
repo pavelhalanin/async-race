@@ -79,30 +79,53 @@ export const Garage = {
       alert(error);
     }
   },
-  getCarElement(carId: number): Element {
+  getLeftProcent(carId: number): number {
+    const CAR_ROAD = Garage.getRoadElement(carId);
+    const CAR_ICON = Garage.getCarElement(carId);
+
+    const ROAD_WIDTH = globalThis.getComputedStyle(CAR_ROAD).width;
+    const CURR_WIDTH = globalThis.getComputedStyle(CAR_ICON).left;
+
+    const ROAD_NUMBER_WIDTH = Number(ROAD_WIDTH.replace('px', '')); // 100 %
+    const CURR_NUMBER_WIDTH = Number(CURR_WIDTH.replace('px', '')); // x%
+    let PROCENT = (CURR_NUMBER_WIDTH * 100) / ROAD_NUMBER_WIDTH;
+    console.log(`Crush for cardId='${carId} on ${PROCENT}%'`);
+    CAR_ICON.style.left = `${PROCENT}%`;
+
+    return PROCENT;
+  },
+  getRoadElement(carId: number): HTMLElement {
+    const CAR_ROAD_SELECTOR = `div[data-car-image="${carId}"]`;
+    const CAR_ROAD = document.querySelector(CAR_ROAD_SELECTOR);
+    if (!CAR_ROAD) {
+      throw new Error(`Node is not found ${CAR_ROAD_SELECTOR}`);
+    }
+    if (!(CAR_ROAD instanceof HTMLElement)) {
+      throw new TypeError(`Node is not found ${CAR_ROAD_SELECTOR}`);
+    }
+    return CAR_ROAD;
+  },
+  getCarElement(carId: number): HTMLElement {
     const CAR_ICON_SELECTOR = `div[data-car-image="${carId}"] .car__wrapper`;
     const CAR_ICON = document.querySelector(CAR_ICON_SELECTOR);
     if (!CAR_ICON) {
       throw new Error(`Node is not found ${CAR_ICON_SELECTOR}`);
     }
-    if (!(CAR_ICON instanceof HTMLSpanElement)) {
+    if (!(CAR_ICON instanceof HTMLElement)) {
       throw new TypeError(`Node is not found ${CAR_ICON_SELECTOR}`);
     }
     return CAR_ICON;
   },
   removeDtp(carId: number): void {
     const CAR_ICON = Garage.getCarElement(carId);
-    if (!(CAR_ICON instanceof HTMLSpanElement)) {
-      throw new TypeError(`Node is not found ${carId}`);
-    }
     CAR_ICON.dataset.dtp = 'false';
   },
   addDtp(carId: number): void {
     const CAR_ICON = Garage.getCarElement(carId);
-    if (!(CAR_ICON instanceof HTMLSpanElement)) {
-      throw new TypeError(`Node is not found ${carId}`);
-    }
     CAR_ICON.dataset.dtp = 'true';
+    const PROCENT = Garage.getLeftProcent(carId);
+    CAR_ICON.setAttribute('title', `Crush on ${PROCENT}%`.replaceAll(`"`, `'`));
+    Garage.removeAnimate(carId);
   },
   removeAnimate(carId: number): void {
     const CAR_ICON = Garage.getCarElement(carId);
