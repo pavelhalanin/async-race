@@ -2,6 +2,7 @@ import './global/style.css';
 import './global/const.css';
 import './global/buttons.css';
 import './global/table.css';
+import './global/scroll.css';
 
 import { App } from './components/App/App';
 
