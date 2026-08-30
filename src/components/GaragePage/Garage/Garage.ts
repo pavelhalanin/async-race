@@ -29,7 +29,7 @@ export const Garage = {
 
     DIV.innerHTML = `
       <div>Garage (${TOTAL_COUNT})</div> <div>Page #${page}</div>
-      <div class="${Garage.idGarageContent}__cars">
+      <div class="${Garage.idGarageContent}__cars scroll">
         ${CARS.map(car => {
           return `
           <div>
