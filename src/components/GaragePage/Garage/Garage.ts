@@ -39,7 +39,7 @@ export const Garage = {
                 ${car.id} ${car.name}
               </div>
               <button class="btn btn-sm btn-success" data-button-car-start="${car.id}">A</button>
-              <button class="btn btn-sm btn-danger" data-button-car-stop="${car.id}">B</button>
+              <button class="btn btn-sm btn-danger" data-button-car-stop="${car.id}" disabled="true">B</button>
               <div class="garage_content__car_road" data-car-image="${car.id}">
                 ${Car.render(car.color)}
                 ${CarFinishFlag.render(car.id)}
@@ -74,10 +74,6 @@ export const Garage = {
     Garage.removeAnimate(id);
     CarFinishFlag.removeFinishAnimation(id);
     Garage.disableA(id);
-    Garage.disableB(id);
-  },
-  _startCar_after(id: number): void {
-    Garage.enableA(id);
     Garage.enableB(id);
   },
   async startCar(id: number): Promise<number> {
@@ -89,14 +85,18 @@ export const Garage = {
 
       Garage.addAnimate(id, TIME);
 
+      const BUTTON_B = Garage.getB(id);
+
       try {
+        if (BUTTON_B.disabled) return 9_999_999;
         await EngineApi.engineDrive(id);
       } catch (error) {
-        console.info('Car not finished - car is crushed', error);
-        CarFinishFlag.addFinishCrushAnimation(id);
-        Garage.addDtp(id);
+        if (BUTTON_B.disabled) return 9_999_999;
+        Garage._startCar_onCrush(error, id);
         return 9_999_999;
       }
+      if (BUTTON_B.disabled) return 9_999_999;
+
       CarFinishFlag.addFinishSuccessAnimation(id);
 
       try {
@@ -118,9 +118,19 @@ export const Garage = {
     } catch (error) {
       console.info('Error start car', error);
       return 9_999_999;
-    } finally {
-      Garage._startCar_after(id);
     }
+  },
+  _startCar_ifEngineNotFound(carId: number): void {
+    CarFinishFlag.removeFinishAnimation(carId);
+    throw new Error(`Engine not started for car ${carId}`);
+  },
+  _startCar_onCrush(error: unknown, carId: number): void {
+    if (error instanceof Error && error.message == 'HTTP 404') {
+      Garage._startCar_ifEngineNotFound(carId);
+    }
+    console.info('Car not finished - car is crushed');
+    CarFinishFlag.addFinishCrushAnimation(carId);
+    Garage.addDtp(carId);
   },
   getLeftProcent(carId: number): number {
     const CAR_ROAD = Garage.getRoadElement(carId);
@@ -206,27 +216,13 @@ export const Garage = {
     BUTTON.innerHTML = 'Reset race (loading...)';
 
     const { CARS } = await GarageApi.getPagination(page, limit);
-    for (const CAR of CARS) {
-      Garage.disableA(CAR.id);
-      Garage.disableB(CAR.id);
-    }
 
-    for (let index = 0; index <= CARS.length; index++) {
-      try {
-        const CAR_ID = CARS[index].id;
-        await EngineApi.engineStopped(CAR_ID);
-        Garage.removeDtp(CAR_ID);
-        Garage.removeAnimate(CAR_ID);
-        CarFinishFlag.removeFinishAnimation(CAR_ID);
-      } catch (error) {
-        console.info('Error stop engine', error);
-      }
-    }
+    const PROMISES = CARS.map(async CAR => {
+      const CAR_ID = CAR.id;
+      Garage.stopEngine(CAR_ID);
+    });
 
-    for (const CAR of CARS) {
-      Garage.enableA(CAR.id);
-      Garage.enableB(CAR.id);
-    }
+    await Promise.all(PROMISES);
 
     BUTTON.innerHTML = 'Reset race';
     BUTTON.removeAttribute('disabled');
@@ -243,10 +239,6 @@ export const Garage = {
     BUTTON.innerHTML = 'Start race (loading...)';
 
     const { CARS } = await GarageApi.getPagination(page, limit);
-    for (const CAR of CARS) {
-      Garage.disableA(CAR.id);
-      Garage.disableB(CAR.id);
-    }
 
     const ARRAY: Array<IStartRaceInfo> = [];
 
@@ -270,11 +262,6 @@ export const Garage = {
     }
 
     Garage._start_race__alert(minTime, CARS, ARRAY);
-
-    for (const CAR of CARS) {
-      Garage.enableA(CAR.id);
-      Garage.enableB(CAR.id);
-    }
 
     BUTTON.innerHTML = 'Start race';
     BUTTON.removeAttribute('disabled');
@@ -308,10 +295,10 @@ export const Garage = {
     Garage.disableB(carId);
     await EngineApi.engineStopped(carId);
     Garage.removeDtp(carId);
+    Garage.enableA(carId);
+    Garage.disableB(carId);
     Garage.removeAnimate(carId);
     CarFinishFlag.removeFinishAnimation(carId);
-    Garage.enableA(carId);
-    Garage.enableB(carId);
   },
   getA(carId: number): HTMLButtonElement {
     const ID = String(carId);
