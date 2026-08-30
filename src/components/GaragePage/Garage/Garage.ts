@@ -119,6 +119,7 @@ export const Garage = {
   removeDtp(carId: number): void {
     const CAR_ICON = Garage.getCarElement(carId);
     CAR_ICON.dataset.dtp = 'false';
+    CAR_ICON.style.left = '';
   },
   addDtp(carId: number): void {
     const CAR_ICON = Garage.getCarElement(carId);
@@ -150,6 +151,32 @@ export const Garage = {
     const CAR_ICON = Garage.getCarElement(carId);
     CAR_ICON.classList.add(`animate--${carId}`);
   },
+  async resetRace(page: number, limit: number): Promise<void> {
+    const BUTTON_SELECTOR = `#reset_race`;
+    const BUTTON = document.querySelector(BUTTON_SELECTOR);
+    if (!BUTTON) {
+      console.error(`Node is not found: ${BUTTON_SELECTOR}`);
+      return;
+    }
+
+    BUTTON.setAttribute('disabled', 'true');
+    BUTTON.innerHTML = 'Reset race (loading...)';
+
+    const { CARS } = await GarageApi.getPagination(page, limit);
+    for (let index = 0; index <= CARS.length; index++) {
+      try {
+        const CAR_ID = CARS[index].id;
+        await EngineApi.engineStopped(CAR_ID);
+        Garage.removeDtp(CAR_ID);
+        Garage.removeAnimate(CAR_ID);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    BUTTON.innerHTML = 'Reset race';
+    BUTTON.removeAttribute('disabled');
+  },
   getPage(): number {
     return Number(localStorage.getItem(Garage.localStoragePage) || 1) || 1;
   },
@@ -179,6 +206,10 @@ export const Garage = {
     document
       .querySelector(`#generate_cars`)
       ?.addEventListener('click', GarageApi.generageRandom100Cars);
+
+    document
+      .querySelector(`#reset_race`)
+      ?.addEventListener('click', async () => await Garage.resetRace(page, limit));
 
     await GaragePagination.render(page, limit, totalCount);
 
