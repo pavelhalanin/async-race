@@ -20,7 +20,7 @@ export const SelectCarButton = {
     const SELECTOR = `button[data-select-car-id="${CSS.escape(String(id))}"]`;
     const BUTTON = document.querySelector(SELECTOR);
     if (!BUTTON) {
-      console.error(`Node not found: ${SELECTOR}`);
+      console.info(`Node not found: ${SELECTOR}`);
       return;
     }
     BUTTON.addEventListener('click', SelectCarButton.onClick);

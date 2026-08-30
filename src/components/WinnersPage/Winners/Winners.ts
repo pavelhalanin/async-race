@@ -14,7 +14,7 @@ export const Winners = {
     const NODE_ID = `#${Winners.idContent}`;
     const DIV = document.querySelector(NODE_ID);
     if (!DIV) {
-      console.error(`Node is not found: ${NODE_ID}`);
+      console.info(`Node is not found: ${NODE_ID}`);
       return;
     }
     DIV.innerHTML = 'Loading...';

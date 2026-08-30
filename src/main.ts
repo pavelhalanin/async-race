@@ -8,5 +8,5 @@ import { App } from './components/App/App';
 try {
   App.render();
 } catch (error) {
-  console.error(error);
+  console.info('App is crushed', error);
 }
