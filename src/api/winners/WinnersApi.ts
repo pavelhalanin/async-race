@@ -60,7 +60,7 @@ export const WinnersApi = {
     return DATA;
   },
   async create(winner: IWinner): Promise<Array<IWinner>> {
-    const URI = 'http://localhost:3000/garage/';
+    const URI = 'http://localhost:3000/winners/';
 
     const RESPONSE = await fetch(URI, {
       method: 'POST',
@@ -91,7 +91,7 @@ export const WinnersApi = {
     }
   },
   async update(winner: IWinnerUpdate, id: number): Promise<IGarage> {
-    const URI = `http://localhost:3000/garage/${id}`;
+    const URI = `http://localhost:3000/winners/${id}`;
 
     const RESPONSE = await fetch(URI, {
       method: 'PUT',

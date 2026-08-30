@@ -1,5 +1,6 @@
 import { EngineApi } from '../../../api/engine/EngineApi';
 import GarageApi from '../../../api/garage/GarageApi';
+import { WinnersApi } from '../../../api/winners/WinnersApi';
 import type { IGarage } from '../../../types/garage.dto';
 import { Pagination } from '../../../utils/Pagination';
 import { Car } from '../../Car/Car';
@@ -74,9 +75,28 @@ export const Garage = {
       } catch (error) {
         console.error(error);
         Garage.addDtp(id);
+        return;
+      }
+
+      try {
+        const WINNER = await WinnersApi.getById(id);
+        await WinnersApi.update(
+          {
+            wins: WINNER.wins + 1,
+            time: Math.min(WINNER.time, TIME),
+          },
+          id
+        );
+      } catch (error) {
+        console.error(error);
+        await WinnersApi.create({
+          id: id,
+          time: TIME,
+          wins: 1,
+        });
       }
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   },
   getLeftProcent(carId: number): number {
