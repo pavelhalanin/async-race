@@ -1,0 +1,214 @@
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e={limitCars:7,limitWinners:10},t={async engineStart(e){let t=`http://localhost:3000/engine/?id=${e}&status=started`,n=await fetch(t,{method:`PATCH`}),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async engineDrive(e){let t=`http://localhost:3000/engine/?id=${e}&status=drive`,n=await fetch(t,{method:`PATCH`}),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async engineStopped(e){let t=`http://localhost:3000/engine/?id=${e}&status=stopped`,n=await fetch(t,{method:`PATCH`}),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()}},n={paginationTypeSort:Object.freeze({noSort:0,idAsc:1,idDesc:2,winsAsc:3,winsDesc:4,timeAsc:5,timeDesc:6}),async getPagination(e,t,r=0){let i=`http://localhost:3000/winners/?_page=${e}&_limit=${t}`,a={[n.paginationTypeSort.idAsc]:{sort:`id`,order:`ASC`},[n.paginationTypeSort.idDesc]:{sort:`id`,order:`DESC`},[n.paginationTypeSort.winsAsc]:{sort:`wins`,order:`ASC`},[n.paginationTypeSort.winsDesc]:{sort:`wins`,order:`DESC`},[n.paginationTypeSort.timeAsc]:{sort:`time`,order:`ASC`},[n.paginationTypeSort.timeDesc]:{sort:`time`,order:`DESC`}}[r];a&&(i+=`&_sort=${a.sort}&_order=${a.order}`);let o=await fetch(i),s=o.status;if(s!==200)throw Error(`HTTP ${s}`);return{WINNERS:await o.json(),TOTAL_COUNT:Number(o.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/winners/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/winners/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/winners/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/winners/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()}},r={getLastPage(e,t){return Math.ceil(e/t)}},i=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M147 170.7L117.2 256L240.1 256L240.1 160L162.2 160C155.4 160 149.3 164.3 147.1 170.7zM48.6 257.9L86.5 149.6C97.8 117.5 128.1 96 162.1 96L360 96C385.2 96 408.9 107.9 424 128L520.2 256.3C587.1 260.5 640 316.1 640 384L640 400C640 435.3 611.3 464 576 464L559.6 464C555.6 508.9 517.9 544 472 544C426.1 544 388.4 508.9 384.4 464L239.7 464C235.7 508.9 198 544 152.1 544C106.2 544 68.5 508.9 64.5 464L64.1 464C28.8 464 .1 435.3 .1 400L.1 320C.1 289.9 20.8 264.7 48.7 257.9zM440 256L372.8 166.4C369.8 162.4 365 160 360 160L288 160L288 256L440 256zM152 496C174.1 496 192 478.1 192 456C192 433.9 174.1 416 152 416C129.9 416 112 433.9 112 456C112 478.1 129.9 496 152 496zM512 456C512 433.9 494.1 416 472 416C449.9 416 432 433.9 432 456C432 478.1 449.9 496 472 496C494.1 496 512 478.1 512 456z"/></svg>`,a=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+  <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+  <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+</svg>`,o={render(e){return`
+      <span class="car__wrapper" style="color: ${e};">
+        <span class="car__dtp_warning">${a}</span>
+        ${i.replaceAll(/fill="[^"]*"/g,``).replace(`<svg`,`<svg fill="currentColor"`)}
+      </span>
+    `}},s={idPaginationContainer:`garage_pagination`,async render(t,n,i){let a=`#${s.idPaginationContainer}`,o=document.querySelector(a);if(!o){console.error(`Node is not found: ${a}`);return}o.innerHTML=`Loading...`;let c=r.getLastPage(i,n);o.innerHTML=`
+      <button class="btn btn-primary" id="pagination_prev_button" ${t<=1?`disabled`:``}>Prev</button>
+      <select id="pagination_select" class="btn">
+        ${Array.from({length:c},(e,n)=>{let r=n+1;return`<option value="${r}" ${r===t?`selected`:``}>${r}</option>`}).join(``)}
+      </select>
+      <button class="btn btn-primary" id="pagination_next_button" ${t>=c?`disabled`:``}>Next</button>
+    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await _.render(t-1,e.limitCars)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await _.render(t+1,e.limitCars)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n instanceof HTMLSelectElement){let t=parseInt(n.value);await _.render(t,e.limitCars)}})}},c={idForm:`create_car_form`,render(e){return`
+      <button
+        class="btn btn-sm btn-danger"
+        data-car-id="${e}"
+      >
+        Remove
+      </button>
+    `},init(e){let t=`button[data-car-id="${CSS.escape(String(e))}"]`,n=document.querySelector(t);if(!n){console.error(`Node not found: ${t}`);return}n.addEventListener(`click`,c.onClick)},async onClick(t){let r=t.target;if(!(r instanceof HTMLButtonElement))return;let i=Number(r.dataset.carId)||0;console.log(`Remove car with ID: ${i}`),await h.remove(i),await n.remove(i),await _.render(d.getPage(),e.limitCars)}},l={idForm:`update_car_form`,localStorageKey:`async_race__car_update_data`,idNameInput:`update_car__name_input`,idColorInput:`update_car__color_input`,render(){let e=l.getUpdateData();return`
+      <form id="${l.idForm}">
+        <label
+          for="${l.idNameInput}"
+        >
+          Name:
+        </label>
+        <input
+          id="${l.idNameInput}"
+          type="text"
+          name="name"
+          value="${e.name}"
+        >
+        <label
+          for="${l.idColorInput}"
+        >
+          Color:
+        </label>
+        <input
+          id="${l.idColorInput}"
+          type="color"
+          name="color"
+          value="${e.color}"
+        >
+        <button
+          class="btn btn-sm btn-success"
+        >
+          Update
+        </button>
+        <input
+          type="hidden"
+          name="id"
+          value="${e.id}"
+        >
+      </form>
+    `},init(){let e=document.querySelector(`#${l.idForm}`);if(!e){console.error(`Node not found: #${l.idForm}`);return}e.addEventListener(`submit`,l.onSubmit);let t=document.querySelector(`#${l.idNameInput}`);if(!t){console.error(`Node not found: #${l.idNameInput}`);return}t.addEventListener(`input`,function(){l.setName(this.value)});let n=document.querySelector(`#${l.idColorInput}`);if(!n){console.error(`Node not found: #${l.idColorInput}`);return}n.addEventListener(`input`,function(){l.setColor(this.value)})},async onSubmit(t){t.preventDefault();let n=t.target;if(!(n instanceof HTMLFormElement))return;let r=new FormData(n),i={name:r.get(`name`)?.toString()||`Unnamed car`,color:r.get(`color`)?.toString()||`#000000`};console.log(`Try to update car`,i);let a=l.getUpdateData(),o=await h.update(i,a.id);console.log(`Updated car`,o),await _.render(d.getPage(),e.limitCars)},getUpdateData(){let e=localStorage.getItem(l.localStorageKey),t={id:0,name:``,color:``};if(e)try{let n=JSON.parse(e);typeof n==`object`&&n&&`id`in n&&typeof n.id==`number`&&(t.id=n.id),typeof n==`object`&&n&&`name`in n&&typeof n.name==`string`&&(t.name=n.name),typeof n==`object`&&n&&`color`in n&&typeof n.color==`string`&&(t.color=n.color)}catch(e){console.error(e)}return localStorage.setItem(l.localStorageKey,JSON.stringify(t)),t},setId(e){let t=l.getUpdateData();t.id=e,localStorage.setItem(l.localStorageKey,JSON.stringify(t))},setName(e){let t=l.getUpdateData();t.name=e,localStorage.setItem(l.localStorageKey,JSON.stringify(t))},setColor(e){let t=l.getUpdateData();t.color=e,localStorage.setItem(l.localStorageKey,JSON.stringify(t))}},u={idForm:`select_car_form`,render(e){return`
+      <button
+        class="btn btn-sm btn-warning"
+        data-select-car-id="${e}"
+      >
+        Select
+      </button>
+    `},init(e){let t=`button[data-select-car-id="${CSS.escape(String(e))}"]`,n=document.querySelector(t);if(!n){console.error(`Node not found: ${t}`);return}n.addEventListener(`click`,u.onClick)},async onClick(t){let n=t.target;if(!(n instanceof HTMLButtonElement))return;let r=Number(n.dataset.selectCarId)||0;l.setId(r);let i=await h.getById(r);l.setName(i.name),l.setColor(i.color),await _.render(d.getPage(),e.limitCars)}},d={idGarageContent:`garage_content`,localStoragePage:`async_race__selected_page`,async render(e,t){let n=`#${d.idGarageContent}`,r=document.querySelector(n);if(!r){console.error(`Node is not found: ${n}`);return}r.innerHTML=`Loading...`;let{CARS:i,TOTAL_COUNT:a}=await h.getPagination(e,t);d.savePage(e),r.innerHTML=`
+      <div>Garage (${a})</div> <div>Page #${e}</div>
+      <div class="${d.idGarageContent}__cars">
+        ${i.map(e=>`
+          <div>
+            ${u.render(e.id)}
+            ${c.render(e.id)}
+            ${e.id} ${e.name}
+          </div>
+          <button class="btn btn-sm btn-primary" data-button-car-start="${e.id}">A</button>
+          <div class="garage_content__car_road" data-car-image="${e.id}">
+            ${o.render(e.color)}
+          </div>
+          <div data-car-css="${e.id}"></div>
+        `).join(``)}
+      </div>
+    `,i.length===0&&(r.innerHTML=`No cars`),await d.componentDidMount(i,e,t,a),d.addEventForCars(i)},addEventForCars(e){for(let t of e){let e=String(t.id);document.querySelector(`button[data-button-car-start="${CSS.escape(e)}"]`)?.addEventListener(`click`,async()=>await d.startCar(t.id))}},async startCar(e){try{d.removeDtp(e),d.removeAnimate(e);let r=await t.engineStart(e),i=r.distance/1e3/r.velocity;d.addAnimate(e,i);try{await t.engineDrive(e)}catch(t){console.error(t),d.addDtp(e);return}try{let t=await n.getById(e);await n.update({wins:t.wins+1,time:Math.min(t.time,i)},e)}catch(t){console.error(t),await n.create({id:e,time:i,wins:1})}}catch(e){console.error(e)}},getLeftProcent(e){let t=d.getRoadElement(e),n=d.getCarElement(e),r=globalThis.getComputedStyle(t).width,i=globalThis.getComputedStyle(n).left,a=Number(r.replace(`px`,``)),o=Number(i.replace(`px`,``))*100/a;return console.log(`Crush for cardId='${e} on ${o}%'`),n.style.left=`${o}%`,o},getRoadElement(e){let t=`div[data-car-image="${e}"]`,n=document.querySelector(t);if(!n)throw Error(`Node is not found ${t}`);if(!(n instanceof HTMLElement))throw TypeError(`Node is not found ${t}`);return n},getCarElement(e){let t=`div[data-car-image="${e}"] .car__wrapper`,n=document.querySelector(t);if(!n)throw Error(`Node is not found ${t}`);if(!(n instanceof HTMLElement))throw TypeError(`Node is not found ${t}`);return n},removeDtp(e){let t=d.getCarElement(e);t.dataset.dtp=`false`,t.style.left=``},addDtp(e){let t=d.getCarElement(e);t.dataset.dtp=`true`;let n=d.getLeftProcent(e);t.setAttribute(`title`,`Crush on ${n}%`.replaceAll(`"`,`'`)),d.removeAnimate(e)},removeAnimate(e){d.getCarElement(e).classList.remove(`animate--${e}`)},addAnimate(e,t){let n=`div[data-car-css="${CSS.escape(String(e))}"]`,r=document.querySelector(n);if(!r)throw Error(`Node is not found ${n}`);r instanceof HTMLElement&&(r.innerHTML=`
+            <style>
+            .garage_content__car_road .car__wrapper.animate--${e} {
+              animation: moveRight ${t}s linear forwards;
+            }
+            </style>
+          `),d.getCarElement(e).classList.add(`animate--${e}`)},async resetRace(e,n){let r=`#reset_race`,i=document.querySelector(r);if(!i){console.error(`Node is not found: ${r}`);return}i.setAttribute(`disabled`,`true`),i.innerHTML=`Reset race (loading...)`;let{CARS:a}=await h.getPagination(e,n);for(let e=0;e<=a.length;e++)try{let n=a[e].id;await t.engineStopped(n),d.removeDtp(n),d.removeAnimate(n)}catch(e){console.error(e)}i.innerHTML=`Reset race`,i.removeAttribute(`disabled`)},getPage(){return Number(localStorage.getItem(d.localStoragePage)||1)||1},savePage(e){localStorage.setItem(d.localStoragePage,String(e))},fixPage(e,t,n){let i=r.getLastPage(n,t);e>i&&(d.savePage(i),d.render(i,t))},async componentDidMount(e,t,n,r){g.init(),l.init();for(let t of e)u.init(t.id),c.init(t.id);document.querySelector(`#generate_cars`)?.addEventListener(`click`,h.generageRandom100Cars),document.querySelector(`#reset_race`)?.addEventListener(`click`,async()=>await d.resetRace(t,n)),await s.render(t,n,r),d.fixPage(t,n,r)}},f={getRandomColor(){let e=`#`;for(let t=0;t<6;t++)e+=`0123456789ABCDEF`[Math.floor(Math.random()*16)];return e}},p={random_from_a_to_b(e,t){return Math.ceil(Math.random()*(t-e)+e)}},m={Tesla:[`Cyber`,`Ludicrous`,`Plaid`,`Space`,`Nova`,`Photon`,`Volt`,`Neon`,`Apex`,`Nexus`],BMW:[`M Sport`,`Dynamic`,`Elite`,`Vantage`,`X Drive`,`Pure`,`Sprint`,`Turbo`,`Premium`,`Evolution`],Mersedes:[`AMG`,`Elite`,`V8`,`Kompressor`,`Avantgarde`,`Sport`,`Luxury`,`Estate`,`Coupe`,`Sprint`],Ford:[`Raptor`,`SVT`,`Cobra`,`Boss`,`King`,`Titan`,`Wild`,`Maverick`,`Outlaw`,`Safari`],Audi:[`Quattro`,`S Line`,`RS`,`e-tron`,`Vorsprung`,`Sport`,`Elite`,`Progress`,`Advance`,`Motion`],Toyota:[`TRD`,`Hybrid`,`Supra`,`Off-Road`,`Sport`,`Luxury`,`Adventure`,`Touring`,`GR`,`Apex`],Honda:[`Type R`,`Sport`,`Touring`,`Hybrid`,`Performance`,`Elite`,`Si`,`Adventure`,`S-Tech`,`V-TEC`],Nissan:[`GT-R`,`Nismo`,`Sport`,`Elite`,`Pro-4X`,`Titan`,`Z`,`Skyline`,`Adventure`,`Performance`],Chevrolet:[`SS`,`ZR1`,`Z06`,`RST`,`LTZ`,`Sport`,`Performance`,`Trail`,`High Country`,`Bolt`],Volkswagen:[`R-Line`,`GTI`,`TDI`,`Sport`,`4Motion`,`Comfort`,`Sprint`,`Elite`,`Atlas`,`Taos`],Porsche:[`Turbo`,`S`,`GTS`,`RS`,`Targa`,`Carrera`,`Cayman`,`Boxster`,`Panamera`,`Taycan`],Ferrari:[`Scuderia`,`Spider`,`GTB`,`GTS`,`Special`,`Stradale`,`Pista`,`Assetto`,`Competizione`,`Challenge`],Lamborghini:[`SV`,`Spyder`,`Performante`,`Superleggera`,`Edizione`,`Nero`,`Giallo`,`Verde`,`Arancio`,`Bianco`],Maserati:[`GranSport`,`GranTurismo`,`S`,`Trofeo`,`Ghibli`,`Levante`,`MC`,`Racing`,`Sport`,`Luxury`],Bugatti:[`SuperSport`,`Pur Sport`,`Vitesse`,`Grand Sport`,`Sang Noir`,`Rembrandt`,`L'Or Blanc`,`La Voiture Noire`,`Centodieci`,`Divo`],"Aston Martin":[`Vantage`,`Vanquish`,`Rapide`,`DBS`,`Valkyrie`,`Valhalla`,`DB11`,`Volante`,`Q`,`Shadow`],Jaguar:[`SVR`,`R-Dynamic`,`Sport`,`Luxury`,`Performance`,`Black`,`Elegance`,`Portfolio`,`XKR`,`Supercharged`],"Land Rover":[`Autobiography`,`Sport`,`HSE`,`Vogue`,`SV`,`AWD`,`Adventure`,`Premium`,`Evoque`,`Defender`],Volvo:[`R-Design`,`Inscription`,`T8`,`Momentum`,`Polestar`,`Excellence`,`Ocean`,`Fusion`,`Thunder`,`Aurora`],Subaru:[`STI`,`WRX`,`Sport`,`Touring`,`Wilderness`,`XT`,`Premium`,`Limited`,`GT`,`Adventure`]},h={async getPagination(e,t){let n=`http://localhost:3000/garage/?_page=${e}&_limit=${t}`,r=await fetch(n),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return{CARS:await r.json(),TOTAL_COUNT:Number(r.headers.get(`x-total-count`))}},async getById(e){let t=`http://localhost:3000/garage/${e}`,n=await fetch(t),r=n.status;if(r!==200)throw Error(`HTTP ${r}`);return await n.json()},async create(e){let t=await fetch(`http://localhost:3000/garage/`,{method:`POST`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),n=t.status;if(n!==201)throw Error(`HTTP ${n}`);return await t.json()},async remove(e){let t=`http://localhost:3000/garage/${e}`,n=(await fetch(t,{method:`DELETE`})).status;if(n!==200)throw Error(`HTTP ${n}`)},async update(e,t){let n=`http://localhost:3000/garage/${t}`,r=await fetch(n,{method:`PUT`,body:JSON.stringify(e),headers:{"Content-Type":`application/json`}}),i=r.status;if(i!==200)throw Error(`HTTP ${i}`);return await r.json()},async generageRandom100Cars(){this.setAttribute(`disabled`,`true`),this.innerHTML=`Generate cars (loading...)`;let t=m,n=Object.keys(t);for(let e=1;e<=100;e++){let e=n[p.random_from_a_to_b(0,n.length-1)],r=t[e],i={name:`${e}-${r[p.random_from_a_to_b(0,r.length-1)]}`,color:f.getRandomColor()};await h.create(i)}await _.render(d.getPage(),e.limitCars),this.removeAttribute(`disabled`),this.innerHTML=`Generate cars`}},g={idForm:`create_car_form`,localStorageKey:`async_race__car_create_data`,idNameInput:`create_car__name_input`,idColorInput:`create_car__color_input`,render(){let e=g.getCreateData();return`
+      <form id="${g.idForm}">
+        <label
+          for="${g.idNameInput}"
+        >
+          Name:
+        </label>
+        <input
+          id="${g.idNameInput}"
+          type="text"
+          name="name"
+          value="${e.name}"
+        >
+        <label
+          for="${g.idColorInput}"
+        >
+          Color:
+        </label>
+        <input
+          id="${g.idColorInput}"  
+          type="color"
+          name="color"
+          value="${e.color}"
+        >
+        <button
+          class="btn btn-sm btn-success"
+        >
+          Create
+        </button>
+      </form>
+    `},init(){let e=document.querySelector(`#${g.idForm}`);if(!e){console.error(`Node not found: #${g.idForm}`);return}e.addEventListener(`submit`,g.onSubmit);let t=document.querySelector(`#${g.idNameInput}`);if(!t){console.error(`Node not found: #${g.idNameInput}`);return}t.addEventListener(`input`,function(){g.setName(this.value)});let n=document.querySelector(`#${g.idColorInput}`);if(!n){console.error(`Node not found: #${g.idColorInput}`);return}n.addEventListener(`input`,function(){g.setColor(this.value)})},async onSubmit(t){t.preventDefault();let n=t.target;if(!(n instanceof HTMLFormElement))return;let r=new FormData(n),i={name:r.get(`name`)?.toString()||`Unnamed car`,color:r.get(`color`)?.toString()||`#000000`};console.log(`Try to create car`,i);let a=await h.create(i);console.log(`Created car`,a),await _.render(d.getPage(),e.limitCars)},getCreateData(){let e=localStorage.getItem(g.localStorageKey),t={name:``,color:``};if(e)try{let n=JSON.parse(e);typeof n==`object`&&n&&`name`in n&&typeof n.name==`string`&&(t.name=n.name),typeof n==`object`&&n&&`color`in n&&typeof n.color==`string`&&(t.color=n.color)}catch(e){console.error(e)}return localStorage.setItem(g.localStorageKey,JSON.stringify(t)),t},setName(e){let t=g.getCreateData();t.name=e,localStorage.setItem(g.localStorageKey,JSON.stringify(t))},setColor(e){let t=g.getCreateData();t.color=e,localStorage.setItem(g.localStorageKey,JSON.stringify(t))}},_={async render(e,t){let n=`#${x.idContent}`,r=document.querySelector(n);if(!r){console.log(`Node is not found: ${n}`);return}try{r.innerHTML=`
+        ${g.render()}
+        ${l.render()}
+        <div>
+          <button
+            class="btn btn-sm btn-danger"
+            id="reset_race"
+          >
+            Reset race
+          </button>
+          <button
+            class="btn btn-sm btn-primary"
+            id="generate_cars"
+            title="Generate random 100 cars"
+          >
+            Generate cars
+          </button>
+        </div>
+        <div id="${d.idGarageContent}"></div>
+        <div id="${s.idPaginationContainer}"></div>
+      `,await d.render(e,t)}catch(e){r.innerHTML=`
+        <div>${e}</div>
+      `}}},v={idContainer:`winners_pagination`,async render(t,n,i){let a=`#${v.idContainer}`,o=document.querySelector(a);if(!o){console.error(`Node is not found: ${a}`);return}o.innerHTML=`Loading...`;let s=r.getLastPage(i,n);o.innerHTML=`
+      <button class="btn btn-primary" id="pagination_prev_button" ${t<=1?`disabled`:``}>Prev</button>
+      <select id="pagination_select" class="btn">
+        ${Array.from({length:s},(e,n)=>{let r=n+1;return`<option value="${r}" ${r===t?`selected`:``}>${r}</option>`}).join(``)}
+      </select>
+      <button class="btn btn-primary" id="pagination_next_button" ${t>=s?`disabled`:``}>Next</button>
+    `,document.querySelector(`#pagination_prev_button`)?.addEventListener(`click`,async()=>await b.render(t-1,e.limitWinners)),document.querySelector(`#pagination_next_button`)?.addEventListener(`click`,async()=>await b.render(t+1,e.limitWinners)),document.querySelector(`#pagination_select`)?.addEventListener(`change`,async t=>{let n=t.target;if(n instanceof HTMLSelectElement){let t=parseInt(n.value);await b.render(t,e.limitWinners)}})}},y={idContent:`winners_content`,localStoragePage:`async_race__winners_selected_page`,async render(e,t,r){let i=`#${y.idContent}`,a=document.querySelector(i);if(!a){console.error(`Node is not found: ${i}`);return}a.innerHTML=`Loading...`;let{WINNERS:o,TOTAL_COUNT:s}=await n.getPagination(e,t,r);y.savePage(e),a.innerHTML=`
+      <div>Winners (${s})</div> <div>Page #${e}</div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th width="120" class="winners__th">
+              Number
+              ${y.getSortButton(0,r,n.paginationTypeSort.idDesc,`winners_sort_id_desc_button`)}
+              ${y.getSortButton(1,r,n.paginationTypeSort.idAsc,`winners_sort_id_asc_button`)}
+            </th>
+            <th width="70">Car</th>
+            <th>Name</th>
+            <th width="100" class="winners__th">
+              Wins
+              ${y.getSortButton(0,r,n.paginationTypeSort.winsDesc,`winners_sort_wins_desc_button`)}
+              ${y.getSortButton(1,r,n.paginationTypeSort.winsAsc,`winners_sort_wins_asc_button`)}
+            </th>
+            <th width="200" class="winners__th">
+              Best time (seconds)
+              ${y.getSortButton(0,r,n.paginationTypeSort.timeDesc,`winners_sort_time_desc_button`)}
+              ${y.getSortButton(1,r,n.paginationTypeSort.timeAsc,`winners_sort_time_asc_button`)}
+            </th>
+          </tr>
+        </thead>
+        ${await y.renderTbody(o)}
+      </table>
+    `,await y.componentDidMount(e,t,s,r)},getSortButton(e,t,n,r){return`
+      <button
+        class="btn btn-sm btn-primary ${e==0?`winners__button_top`:`winners__button_bottom`}"
+        id="${r}"
+        ${t==n?`disabled`:``}
+      >
+        ${e==0?`↑`:`↓`}
+      </button>
+    `},async renderTbody(e){return`
+      <tbody>
+        ${(await Promise.all(e.map(async e=>{try{let t=await h.getById(e.id);return`
+            <tr>
+              <td align="right">${e.id}</td>
+              <td align="center">${o.render(t.color)}</td>
+              <td>${t.name}</td>
+              <td align="right">${e.wins}</td>
+              <td align="right">${e.time}</td>
+            </tr>
+          `}catch(t){return`
+            <tr>
+              <td align="right">${e.id}</td>
+              <td>${t}</td>
+              <td>${t}</td>
+              <td align="right">${e.wins}</td>
+              <td align="right">${e.time}</td>
+            </tr>
+          `}}))).join(``)}
+        ${e.length===0?`<tr><td colspan="5">Table is empty</td></tr>`:``}
+      </tbody>
+    `},getPage(){return Number(localStorage.getItem(y.localStoragePage)||1)||1},savePage(e){localStorage.setItem(y.localStoragePage,String(e))},fixPage(e,t,n,i){let a=r.getLastPage(n,t);e>a&&(y.savePage(a),y.render(a,t,i))},async componentDidMount(e,t,r,i){await v.render(e,t,r),y.fixPage(e,t,r,i),document.querySelector(`#winners_sort_id_asc_button`)?.addEventListener(`click`,()=>b.render(e,t,n.paginationTypeSort.idAsc)),document.querySelector(`#winners_sort_id_desc_button`)?.addEventListener(`click`,()=>b.render(e,t,n.paginationTypeSort.idDesc)),document.querySelector(`#winners_sort_wins_asc_button`)?.addEventListener(`click`,()=>b.render(e,t,n.paginationTypeSort.winsAsc)),document.querySelector(`#winners_sort_wins_desc_button`)?.addEventListener(`click`,()=>b.render(e,t,n.paginationTypeSort.winsDesc)),document.querySelector(`#winners_sort_time_asc_button`)?.addEventListener(`click`,()=>b.render(e,t,n.paginationTypeSort.timeAsc)),document.querySelector(`#winners_sort_time_desc_button`)?.addEventListener(`click`,()=>b.render(e,t,n.paginationTypeSort.timeDesc))}},b={async render(e,t,n=0){let r=`#${x.idContent}`,i=document.querySelector(r);if(!i){console.log(`Node is not found: ${r}`);return}try{i.innerHTML=`
+        <div id="${y.idContent}"></div>
+        <div id="${v.idContainer}"></div>
+      `,await y.render(e,t,n)}catch(e){i.innerHTML=`
+        <div>${e}</div>
+      `}}},x={idRoot:`app`,idContent:`content`,async render(){let t=`#${x.idRoot}`,n=document.querySelector(t);if(!n){console.error(`Node is not found: ${t}`);return}try{n.innerHTML=`
+        <div>
+          <button class="btn btn-sm btn-primary" id="garage_render">To garage</button>
+          <button class="btn btn-sm btn-primary" id="winner_render">To winners</button>
+        </div>
+        <div id="${x.idContent}"></div>
+      `,document.querySelector(`#garage_render`)?.addEventListener(`click`,async()=>_.render(d.getPage(),e.limitCars)),document.querySelector(`#winner_render`)?.addEventListener(`click`,()=>b.render(y.getPage(),e.limitWinners)),await _.render(d.getPage(),e.limitCars)}catch(e){n.innerHTML=`
+        <div style='color: red;'>
+          ${e}
+        </div>
+      `}}};try{x.render()}catch(e){console.error(e)}
