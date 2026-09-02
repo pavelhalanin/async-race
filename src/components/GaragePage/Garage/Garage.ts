@@ -98,23 +98,7 @@ export const Garage = {
       if (BUTTON_B.disabled) return 9_999_999;
 
       CarFinishFlag.addFinishSuccessAnimation(id);
-
-      try {
-        const WINNER = await WinnersApi.getById(id);
-        const MIN_TIME = Math.min(WINNER.time, TIME);
-        await WinnersApi.update(
-          {
-            wins: WINNER.wins + 1,
-            time: MIN_TIME,
-          },
-          id
-        );
-        return MIN_TIME;
-      } catch (error) {
-        console.info('Car not found for update', error);
-        await WinnersApi.create({ id: id, time: TIME, wins: 1 });
-        return TIME;
-      }
+      return TIME;
     } catch (error) {
       console.info('Error start car', error);
       return 9_999_999;
@@ -261,34 +245,92 @@ export const Garage = {
       }
     }
 
-    Garage._start_race__alert(minTime, CARS, ARRAY);
+    const FIRST_WINNERS = Garage._start_race__getArrayWinners(minTime, CARS, ARRAY);
+    Garage._start_race__saveWinner(FIRST_WINNERS, minTime);
+    Garage._start_race__alert(minTime, FIRST_WINNERS, ARRAY, CARS);
 
     BUTTON.innerHTML = 'Start race';
     BUTTON.removeAttribute('disabled');
   },
-  _start_race__alert(minTime: number, CARS: Array<IGarage>, ARRAY: Array<IStartRaceInfo>): void {
+  _start_race__getArrayWinners(
+    minTime: number,
+    CARS: Array<IGarage>,
+    ARRAY: Array<IStartRaceInfo>
+  ): Array<IGarage> {
+    const WINNERS: Array<IGarage> = [];
     if (minTime == 9_999_999) {
-      alert('nothing not win race because cars crush');
+      return WINNERS;
     }
 
-    if (minTime !== 9_999_999) {
-      const WINNERS: Array<IGarage> = [];
-      for (const element of ARRAY) {
-        if (element.time == minTime) {
-          for (const CAR of CARS) {
-            if (CAR.id === element.carId) {
-              WINNERS.push(CAR);
-            }
+    for (const element of ARRAY) {
+      if (element.time == minTime) {
+        for (const CAR of CARS) {
+          if (CAR.id === element.carId) {
+            WINNERS.push(CAR);
           }
         }
       }
-
-      alert(
-        `First car finished on time ${minTime}s: ${WINNERS.map(car => {
-          return `\n${minTime}s - ${car.id} - ${car.name} (color ${car.color})`;
-        })}`
-      );
     }
+
+    return WINNERS;
+  },
+  async _start_race__saveWinner(firstWinners: Array<IGarage>, minTime: number): Promise<void> {
+    for (const firstWinner of firstWinners) {
+      const CAR_ID = firstWinner.id;
+      try {
+        const WINNER = await WinnersApi.getById(CAR_ID);
+        const MIN_TIME = Math.min(WINNER.time, minTime);
+        await WinnersApi.update(
+          {
+            wins: WINNER.wins + 1,
+            time: MIN_TIME,
+          },
+          CAR_ID
+        );
+      } catch (error) {
+        console.info('Car not found for update', error);
+        await WinnersApi.create({ id: CAR_ID, time: minTime, wins: 1 });
+      }
+    }
+  },
+  getFormatedTime(time: number): string {
+    return (Math.round(time * 100) / 100).toFixed(2);
+  },
+  _start_race__alert(
+    minTime: number,
+    winners: Array<IGarage>,
+    ARRAY: Array<IStartRaceInfo>,
+    cars: Array<IGarage>
+  ): void {
+    if (minTime == 9_999_999) {
+      alert('nothing not win race because cars crush');
+      return;
+    }
+
+    const MESSAGE = [
+      `Winner:\n`,
+      winners
+        .map(
+          car =>
+            `${Garage.getFormatedTime(minTime)}s - [id=${car.id}] ${car.name} (color ${car.color})`
+        )
+        .join('\n'),
+      '\n',
+      'Cars in race:\n',
+      ARRAY.toSorted((a, b) => a.time - b.time)
+        .map(data => {
+          for (const car of cars) {
+            if (car.id == data.carId) {
+              return `${Garage.getFormatedTime(data.time)}s [id=${data.carId}] ${car.name} (color ${car.color})`;
+            }
+          }
+          return `${Garage.getFormatedTime(data.time)}s [id=${data.carId}]`;
+        })
+        .join('\n'),
+    ].join('');
+
+    console.log(MESSAGE);
+    alert(MESSAGE);
   },
   async stopEngine(carId: number): Promise<void> {
     Garage.disableA(carId);
